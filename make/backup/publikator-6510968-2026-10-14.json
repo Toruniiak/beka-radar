@@ -1,0 +1,54 @@
+{
+  "_backup": "Beka Publikator — stan przed naprawą 2026-10-14 (wyłączony, 0 uruchomień, puste page_id, połączenie FB 8898172 wygasło 2026-09-28)",
+  "scenarioId": 6510968,
+  "scheduling": { "time": "18:00", "type": "daily" },
+  "blueprint": {
+    "flow": [
+      {
+        "id": 1,
+        "mapper": {
+          "sort": [{ "key": "publikuj_o", "order": 1 }],
+          "filter": [[{ "a": "status", "b": "czeka", "o": "text:equal" }]]
+        },
+        "module": "datastore:SearchRecord",
+        "version": 1,
+        "metadata": { "designer": { "x": 0, "y": 0 } },
+        "parameters": { "limit": 1, "datastore": 145060 }
+      },
+      {
+        "id": 2,
+        "mapper": {
+          "photos": [{ "url": "{{1.url_grafiki}}", "type": "url" }],
+          "message": "{{1.tekst_posta}}",
+          "page_id": ""
+        },
+        "module": "facebook-pages:CreatePostWithPhotos",
+        "version": 6,
+        "metadata": { "designer": { "x": 300, "y": 0 } },
+        "parameters": { "__IMTCONN__": 8898172 }
+      },
+      {
+        "id": 3,
+        "mapper": {
+          "key": "{{1.key}}",
+          "data": { "status": "opublikowane" },
+          "upsert": false,
+          "overwriteArrays": false
+        },
+        "module": "datastore:UpdateRecord",
+        "version": 1,
+        "metadata": { "designer": { "x": 600, "y": 0 } },
+        "parameters": { "datastore": 145060 }
+      }
+    ],
+    "name": "Beka Publikator — kolejka → Facebook (18:00)",
+    "metadata": {
+      "instant": false,
+      "version": 1,
+      "designer": { "orphans": [] },
+      "scenario": { "dlq": false, "dataloss": false, "maxErrors": 3, "autoCommit": true, "roundtrips": 1, "sequential": false, "confidential": false, "freshVariables": false, "autoCommitTriggerLast": true }
+    },
+    "scheduling": { "time": "18:00", "type": "daily" },
+    "interface": { "input": [], "output": [] }
+  }
+}

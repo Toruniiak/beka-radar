@@ -1,0 +1,89 @@
+{
+  "_backup": "Beka Fabryka — stan przed naprawą 2026-10-14 (isinvalid=true, wyłączona po błędach 'Function random not found' od 2026-09-13)",
+  "scenarioId": 6508676,
+  "scheduling": { "time": "10:00", "type": "daily" },
+  "blueprint": {
+    "flow": [
+      {
+        "id": 1,
+        "mapper": { "url": "https://news.google.com/rss?hl=pl&gl=PL&ceid=PL:pl", "gzip": true, "maxResults": 3 },
+        "module": "rss:ActionReadArticles",
+        "version": 4,
+        "metadata": { "designer": { "x": 0, "y": 0 } },
+        "parameters": { "include": "" }
+      },
+      {
+        "id": 2,
+        "mapper": { "filter": [[{ "a": "temat", "b": "{{1.title}}", "o": "text:equal" }]] },
+        "module": "datastore:SearchRecord",
+        "version": 1,
+        "metadata": { "designer": { "x": 250, "y": 0 } },
+        "parameters": { "limit": 1, "datastore": 145060, "continueWhenNoRes": true }
+      },
+      {
+        "id": 3,
+        "filter": { "name": "Tylko nowe tematy (deduplikacja)", "conditions": [[{ "a": "{{2.key}}", "b": null, "o": "notexist" }]] },
+        "mapper": { "duration": 20 },
+        "module": "util:FunctionSleep",
+        "version": 1,
+        "metadata": { "designer": { "x": 500, "y": 0 } },
+        "parameters": {}
+      },
+      {
+        "id": 4,
+        "mapper": {
+          "url": "https://text.pollinations.ai/{{encodeURL(\"Jestes autorem strony humorystycznej BekaWpigułce. Dzisiejszy nagłówek z Polski: \" + 1.title + \". Jesli nagłówek jest zabawny lub lifestylowy, napisz na jego bazie oryginalny post na Facebooka. Jesli jest poważny, tragiczny lub polityczny, ZIGNORUJ go i napisz uniwersalny relatable post o codziennym życiu w Polsce (praca, zakupy, pogoda, rodzina). Struktura: mocny hook w pierwszej linijce, krótkie rozwinięcie, zabawna puenta, pytanie do komentarzy. Styl: luz, ironia, poprawna polszczyzna, maks 2 emoji, zero hashtagów i linków. Maks 350 znaków. Zwróć wyłącznie gotowy tekst posta, bez cudzysłowów.\")}}",
+          "method": "get",
+          "headers": [],
+          "timeout": 60,
+          "contentType": "",
+          "shareCookies": false,
+          "parseResponse": false,
+          "allowRedirects": true,
+          "queryParameters": [{ "name": "model", "value": "openai" }],
+          "stopOnHttpError": false,
+          "requestCompressedContent": true
+        },
+        "module": "http:MakeRequest",
+        "version": 4,
+        "metadata": { "designer": { "x": 750, "y": 0 } },
+        "parameters": { "authenticationType": "noAuth" }
+      },
+      {
+        "id": 5,
+        "filter": {
+          "name": "Strażnik jakości: czysty tekst, sensowna długość",
+          "conditions": [[
+            { "a": "{{4.data}}", "b": "{\"", "o": "text:notstartwith" },
+            { "a": "{{length(4.data)}}", "b": "600", "o": "number:lessorequal" },
+            { "a": "{{length(4.data)}}", "b": "40", "o": "number:greaterorequal" }
+          ]]
+        },
+        "mapper": {
+          "key": "",
+          "data": {
+            "temat": "{{1.title}}",
+            "status": "czeka",
+            "publikuj_o": "{{now}}",
+            "tekst_posta": "{{4.data}}",
+            "url_grafiki": "https://image.pollinations.ai/prompt/{{encodeURL(\"photorealistic funny candid scene of everyday life in Poland, lighthearted family friendly humor, natural light, 35mm photo, no politics, no text, no watermark, theme: \" + 1.title)}}?width=1080&height=1350&nologo=true&model=flux&seed={{floor(random() * 100000)}}",
+            "zrodlo_inspiracji": "{{1.url}}"
+          }
+        },
+        "module": "datastore:AddRecord",
+        "version": 1,
+        "metadata": { "designer": { "x": 1000, "y": 0 } },
+        "parameters": { "datastore": 145060 }
+      }
+    ],
+    "name": "Beka Fabryka — trendy → oryginalne posty (AI)",
+    "metadata": {
+      "instant": false,
+      "version": 1,
+      "designer": { "orphans": [] },
+      "scenario": { "dlq": false, "slots": null, "dataloss": false, "maxErrors": 6, "autoCommit": true, "roundtrips": 1, "sequential": true, "confidential": false, "freshVariables": false, "autoCommitTriggerLast": true }
+    },
+    "scheduling": { "time": "10:00", "type": "daily" },
+    "interface": { "input": [], "output": [] }
+  }
+}

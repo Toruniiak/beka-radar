@@ -1,0 +1,232 @@
+{
+  "_opis": "Beka Fabryka — stan po naprawie 2026-10-14 (aktywna)",
+  "scenarioId": 6508676,
+  "scheduling": {
+    "time": "10:00",
+    "type": "daily"
+  },
+  "blueprint": {
+    "flow": [
+      {
+        "id": 1,
+        "mapper": {
+          "url": "https://news.google.com/rss/search?q=%28pogoda%20OR%20upa%C5%82%20OR%20Biedronka%20OR%20Lidl%20OR%20PKP%20OR%20korki%20OR%20ceny%20OR%20urlop%20OR%20weekend%20OR%20szko%C5%82a%20OR%20remont%20OR%20dzia%C5%82ka%29%20when%3A1d&hl=pl&gl=PL&ceid=PL:pl",
+          "gzip": true,
+          "maxResults": 3
+        },
+        "module": "rss:ActionReadArticles",
+        "version": 4,
+        "metadata": {
+          "designer": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        "parameters": {
+          "include": ""
+        }
+      },
+      {
+        "id": 2,
+        "mapper": {
+          "filter": [
+            [
+              {
+                "a": "temat",
+                "b": "{{1.title}}",
+                "o": "text:equal"
+              }
+            ]
+          ]
+        },
+        "module": "datastore:SearchRecord",
+        "version": 1,
+        "metadata": {
+          "designer": {
+            "x": 250,
+            "y": 0
+          }
+        },
+        "parameters": {
+          "limit": 1,
+          "datastore": 145060,
+          "continueWhenNoRes": true
+        }
+      },
+      {
+        "id": 3,
+        "filter": {
+          "name": "Tylko nowe tematy (deduplikacja)",
+          "conditions": [
+            [
+              {
+                "a": "{{2.key}}",
+                "b": null,
+                "o": "notexist"
+              }
+            ]
+          ]
+        },
+        "mapper": {
+          "duration": 20
+        },
+        "module": "util:FunctionSleep",
+        "version": 1,
+        "metadata": {
+          "designer": {
+            "x": 500,
+            "y": 0
+          }
+        },
+        "parameters": {}
+      },
+      {
+        "id": 4,
+        "mapper": {
+          "url": "https://text.pollinations.ai/{{encodeURL(\"Jesteś autorem fanpage'a BekaWpigułce – polski humor obserwacyjny o codzienności. Inspiracja dnia (nagłówek z Polski, NIE cytuj go, nie podawaj z niego nazwisk ani nazw firm): \" + 1.title + \". Napisz JEDEN oryginalny post na Facebooka o sytuacji, którą zna każdy Polak, luźno związanej z tym tematem. Jeśli temat dotyczy polityki, przestępstwa, wypadku, choroby, śmierci, wojny, religii albo konkretnych osób, całkowicie go pomiń i napisz o zwykłej codzienności (praca, zakupy, pogoda, dom, rodzina, dojazdy). Budowa posta: pierwsza linijka to hook do 80 znaków, który zatrzymuje scrollowanie; pusta linia; 2–3 krótkie zdania rozwinięcia z jednym konkretnym, obrazowym szczegółem; pusta linia; zabawna puenta; pusta linia; jedno otwarte pytanie, które zachęca do opisania własnej historii albo wyboru jednej z opcji. Zakazy: żadnych hashtagów, linków, nazwisk, wulgaryzmów, żadnych próśb typu polub, udostępnij, oznacz znajomego, żadnych wstępów typu Oto post. Styl: luz, autoironia, poprawna polszczyzna z polskimi znakami, maksymalnie 2 emoji. Długość 250–450 znaków. Zwróć wyłącznie gotowy tekst posta, bez cudzysłowów.\")}}",
+          "method": "get",
+          "headers": [],
+          "timeout": 90,
+          "contentType": "",
+          "shareCookies": false,
+          "parseResponse": false,
+          "allowRedirects": true,
+          "queryParameters": [
+            {
+              "name": "model",
+              "value": "openai"
+            },
+            {
+              "name": "private",
+              "value": "true"
+            }
+          ],
+          "stopOnHttpError": false,
+          "requestCompressedContent": true
+        },
+        "module": "http:MakeRequest",
+        "version": 4,
+        "metadata": {
+          "designer": {
+            "x": 750,
+            "y": 0
+          }
+        },
+        "parameters": {
+          "authenticationType": "noAuth"
+        }
+      },
+      {
+        "id": 5,
+        "filter": {
+          "name": "Strażnik jakości: czysty tekst, długość, pytanie, bez hashtagów/linków",
+          "conditions": [
+            [
+              {
+                "a": "{{4.statusCode}}",
+                "b": "200",
+                "o": "number:equal"
+              },
+              {
+                "a": "{{trim(4.data)}}",
+                "b": "{",
+                "o": "text:notstartwith"
+              },
+              {
+                "a": "{{trim(4.data)}}",
+                "b": "<",
+                "o": "text:notstartwith"
+              },
+              {
+                "a": "{{length(trim(4.data))}}",
+                "b": "120",
+                "o": "number:greaterorequal"
+              },
+              {
+                "a": "{{length(trim(4.data))}}",
+                "b": "700",
+                "o": "number:lessorequal"
+              },
+              {
+                "a": "{{4.data}}",
+                "b": "?",
+                "o": "text:contain"
+              },
+              {
+                "a": "{{4.data}}",
+                "b": "#",
+                "o": "text:notcontain"
+              },
+              {
+                "a": "{{4.data}}",
+                "b": "http",
+                "o": "text:notcontain:ci"
+              },
+              {
+                "a": "{{4.data}}",
+                "b": "oto post",
+                "o": "text:notcontain:ci"
+              },
+              {
+                "a": "{{4.data}}",
+                "b": "jako ai",
+                "o": "text:notcontain:ci"
+              }
+            ]
+          ]
+        },
+        "mapper": {
+          "key": "",
+          "data": {
+            "temat": "{{1.title}}",
+            "status": "czeka",
+            "publikuj_o": "{{now}}",
+            "tekst_posta": "{{trim(4.data)}}\n\n#BekaWpigułce",
+            "url_grafiki": "https://image.pollinations.ai/prompt/{{encodeURL(\"photorealistic candid funny everyday scene in Poland, ordinary anonymous people, lighthearted family friendly humor, natural light, 35mm photo, no celebrities, no politicians, no logos, no text, no watermark, scene: \" + first(split(trim(4.data); newline)))}}?width=1080&height=1350&nologo=true&model=flux&seed={{formatDate(now; \"X\")}}",
+            "zrodlo_inspiracji": "{{1.url}}"
+          },
+          "overwrite": false
+        },
+        "module": "datastore:AddRecord",
+        "version": 1,
+        "metadata": {
+          "designer": {
+            "x": 1000,
+            "y": 0
+          }
+        },
+        "parameters": {
+          "datastore": 145060
+        }
+      }
+    ],
+    "name": "Beka Fabryka — trendy → oryginalne posty (AI)",
+    "metadata": {
+      "instant": false,
+      "version": 1,
+      "designer": {
+        "orphans": []
+      },
+      "scenario": {
+        "dlq": false,
+        "slots": null,
+        "dataloss": false,
+        "maxErrors": 6,
+        "autoCommit": true,
+        "roundtrips": 1,
+        "sequential": true,
+        "confidential": false,
+        "freshVariables": false,
+        "autoCommitTriggerLast": true
+      }
+    },
+    "scheduling": {
+      "time": "10:00",
+      "type": "daily"
+    },
+    "interface": {
+      "input": [],
+      "output": []
+    }
+  }
+}
