@@ -1,5 +1,5 @@
 {
-  "_opis": "Beka Fabryka — stan w Make (AKTYWNA, 10:00): Make AI (large) → strażnik → czeka/odrzucony",
+  "_opis": "Beka Fabryka — stan w Make (AKTYWNA, 10:00): filtr tematów → Make AI (large, few-shot) → strażnik → czeka/odrzucony",
   "scenarioId": 6508676,
   "scheduling": {
     "time": "10:00",
@@ -30,7 +30,7 @@
       {
         "id": 1,
         "mapper": {
-          "url": "https://news.google.com/rss/search?q=%28pogoda%20OR%20upa%C5%82%20OR%20Biedronka%20OR%20Lidl%20OR%20PKP%20OR%20korki%20OR%20ceny%20OR%20urlop%20OR%20weekend%20OR%20szko%C5%82a%20OR%20remont%20OR%20dzia%C5%82ka%29%20when%3A1d&hl=pl&gl=PL&ceid=PL:pl",
+          "url": "https://news.google.com/rss/search?q=%28pogoda%20OR%20mr%C3%B3z%20OR%20upa%C5%82%20OR%20promocje%20OR%20zakupy%20OR%20PKP%20OR%20korki%20OR%20ceny%20OR%20rachunki%20OR%20urlop%20OR%20weekend%20OR%20szko%C5%82a%20OR%20remont%20OR%20dzia%C5%82ka%20OR%20dojazdy%29%20when%3A1d&hl=pl&gl=PL&ceid=PL:pl",
           "gzip": true,
           "maxResults": 2
         },
@@ -76,19 +76,129 @@
       {
         "id": 4,
         "filter": {
-          "name": "Tylko nowe tematy (deduplikacja)",
+          "name": "Nowy temat i nie tragiczny",
           "conditions": [
             [
               {
                 "a": "{{ifempty(2.key; \"BRAK\")}}",
                 "b": "BRAK",
                 "o": "text:equal"
+              },
+              {
+                "a": "{{1.title}}",
+                "b": "nie żyje",
+                "o": "text:notcontain:ci"
+              },
+              {
+                "a": "{{1.title}}",
+                "b": "zginął",
+                "o": "text:notcontain:ci"
+              },
+              {
+                "a": "{{1.title}}",
+                "b": "zginęła",
+                "o": "text:notcontain:ci"
+              },
+              {
+                "a": "{{1.title}}",
+                "b": "zginęli",
+                "o": "text:notcontain:ci"
+              },
+              {
+                "a": "{{1.title}}",
+                "b": "ciało",
+                "o": "text:notcontain:ci"
+              },
+              {
+                "a": "{{1.title}}",
+                "b": "śmier",
+                "o": "text:notcontain:ci"
+              },
+              {
+                "a": "{{1.title}}",
+                "b": "zmarł",
+                "o": "text:notcontain:ci"
+              },
+              {
+                "a": "{{1.title}}",
+                "b": "wypad",
+                "o": "text:notcontain:ci"
+              },
+              {
+                "a": "{{1.title}}",
+                "b": "tragedi",
+                "o": "text:notcontain:ci"
+              },
+              {
+                "a": "{{1.title}}",
+                "b": "katastrof",
+                "o": "text:notcontain:ci"
+              },
+              {
+                "a": "{{1.title}}",
+                "b": "powód",
+                "o": "text:notcontain:ci"
+              },
+              {
+                "a": "{{1.title}}",
+                "b": "ofiar",
+                "o": "text:notcontain:ci"
+              },
+              {
+                "a": "{{1.title}}",
+                "b": "pożar",
+                "o": "text:notcontain:ci"
+              },
+              {
+                "a": "{{1.title}}",
+                "b": "zabił",
+                "o": "text:notcontain:ci"
+              },
+              {
+                "a": "{{1.title}}",
+                "b": "zabój",
+                "o": "text:notcontain:ci"
+              },
+              {
+                "a": "{{1.title}}",
+                "b": "policj",
+                "o": "text:notcontain:ci"
+              },
+              {
+                "a": "{{1.title}}",
+                "b": "prokurat",
+                "o": "text:notcontain:ci"
+              },
+              {
+                "a": "{{1.title}}",
+                "b": "sąd ",
+                "o": "text:notcontain:ci"
+              },
+              {
+                "a": "{{1.title}}",
+                "b": "wojn",
+                "o": "text:notcontain:ci"
+              },
+              {
+                "a": "{{1.title}}",
+                "b": "atak",
+                "o": "text:notcontain:ci"
+              },
+              {
+                "a": "{{1.title}}",
+                "b": " rann",
+                "o": "text:notcontain:ci"
+              },
+              {
+                "a": "{{1.title}}",
+                "b": "zaginię",
+                "o": "text:notcontain:ci"
               }
             ]
           ]
         },
         "mapper": {
-          "input": "Jesteś autorem fanpage'a BekaWpigułce – polski humor obserwacyjny o codzienności. Inspiracja dnia (nagłówek z Polski, NIE cytuj go, nie podawaj z niego nazwisk ani nazw firm): {{1.title}}. Napisz JEDEN oryginalny post na Facebooka o sytuacji, którą zna każdy Polak, luźno związanej z tym tematem. Jeśli temat dotyczy polityki, przestępstwa, wypadku, choroby, śmierci, wojny, religii albo konkretnych osób, całkowicie go pomiń i napisz o zwykłej codzienności (praca, zakupy, pogoda, dom, rodzina, dojazdy). Budowa posta: pierwsza linijka to hook do 80 znaków, który zatrzymuje scrollowanie; pusta linia; 2–3 krótkie zdania rozwinięcia z jednym konkretnym, obrazowym szczegółem; pusta linia; zabawna puenta; pusta linia; jedno otwarte pytanie, które zachęca do opisania własnej historii albo wyboru jednej z opcji. Zakazy: żadnych hashtagów, linków, nazwisk, wulgaryzmów, żadnych próśb typu polub, udostępnij, oznacz znajomego, żadnych wstępów typu Oto post, żadnych cudzysłowów wokół całego tekstu. Styl: luz, autoironia, poprawna polszczyzna z polskimi znakami, maksymalnie 2 emoji. Długość 250–450 znaków. Zwróć wyłącznie gotowy tekst posta."
+          "input": "Jesteś autorem fanpage'a BekaWpigułce – polski humor obserwacyjny o codzienności, ciepły i autoironiczny, nikogo nie obraża. Inspiracja dnia (nagłówek, tylko jako luźny punkt wyjścia; NIE cytuj go): {{1.title}}.\n\nNapisz JEDEN oryginalny post na Facebooka o sytuacji, którą zna każdy Polak. Jeśli nagłówek dotyczy polityki, nieszczęścia, przestępstwa, choroby albo konkretnych osób — zignoruj go i napisz o zwykłej codzienności (praca, zakupy, pogoda, dom, rodzina, dojazdy).\n\nWzór stylu i budowy (NIE kopiuj treści, tylko formę):\n---\nPolak w sklepie: „wchodzę tylko po chleb”.\n\nCzterdzieści minut później wychodzi z dwiema torbami, patelnią z promocji i przekonaniem, że to była okazja życia. Chleba oczywiście nie ma, bo „już nie było świeżego”.\n\nNajdroższy chleb świata kosztował 187 zł i nawet nie trafił do koszyka.\n\nCo ostatnio kupiliście „przy okazji”, choć szliście po coś zupełnie innego? 👇\n---\nNajszybszy człowiek świata? Polak, gdy otwierają drugą kasę.\n\nJedno „zapraszam do kasy obok” i kolejka rozpada się jak w filmie akcji. Starsza pani z koszykiem wyprzedza sprintera, a Ty stoisz z jednym jogurtem i wiesz, że przegrałeś, zanim zrobiłeś krok.\n\nRekordziści olimpijscy nie mieliby szans.\n\nJesteście sprinterami czy z godnością zostajecie w swojej kolejce? 😂\n---\n\nWymagania: 1) pierwsza linijka to krótki hook (do 80 znaków); 2) pusta linia; 3) 2–3 krótkie zdania z jednym konkretnym, obrazowym, prawdopodobnym szczegółem z polskiej codzienności; 4) pusta linia; 5) puenta; 6) pusta linia; 7) jedno otwarte pytanie do czytelników. Zakazy: nazwy marek, sklepów i firm, nazwiska, polityka, hashtagi, linki, wulgaryzmy, prośby typu polub/udostępnij/oznacz znajomego, wstępy typu Oto post, cudzysłów wokół całości, więcej niż jedna pusta linia z rzędu. Pisz naturalną, poprawną polszczyzną — każde zdanie ma mieć sens i brzmieć jak napisane przez Polaka. Maksymalnie 2 emoji. Długość 250–450 znaków. Zwróć wyłącznie gotowy tekst posta."
         },
         "module": "ai-tools:Ask",
         "version": 2,
@@ -190,6 +300,26 @@
                         "a": "{{8.value}}",
                         "b": "jako model",
                         "o": "text:notcontain:ci"
+                      },
+                      {
+                        "a": "{{8.value}}",
+                        "b": "lidl",
+                        "o": "text:notcontain:ci"
+                      },
+                      {
+                        "a": "{{8.value}}",
+                        "b": "biedronk",
+                        "o": "text:notcontain:ci"
+                      },
+                      {
+                        "a": "{{8.value}}",
+                        "b": "\n\n\n",
+                        "o": "text:notcontain"
+                      },
+                      {
+                        "a": "{{8.value}}",
+                        "b": "\n \n",
+                        "o": "text:notcontain"
                       }
                     ]
                   ]
@@ -281,6 +411,34 @@
                         "a": "{{8.value}}",
                         "b": "jako model",
                         "o": "text:contain:ci"
+                      }
+                    ],
+                    [
+                      {
+                        "a": "{{8.value}}",
+                        "b": "lidl",
+                        "o": "text:contain:ci"
+                      }
+                    ],
+                    [
+                      {
+                        "a": "{{8.value}}",
+                        "b": "biedronk",
+                        "o": "text:contain:ci"
+                      }
+                    ],
+                    [
+                      {
+                        "a": "{{8.value}}",
+                        "b": "\n\n\n",
+                        "o": "text:contain"
+                      }
+                    ],
+                    [
+                      {
+                        "a": "{{8.value}}",
+                        "b": "\n \n",
+                        "o": "text:contain"
                       }
                     ]
                   ]
