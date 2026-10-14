@@ -62,11 +62,10 @@
               {
                 "id": 4,
                 "mapper": {
-                  "url": "{{1.url_grafiki}}",
+                  "url": "{{1.data.url_grafiki}}",
                   "method": "get",
                   "headers": [],
                   "queryParameters": [],
-                  "contentType": "",
                   "parseResponse": false,
                   "stopOnHttpError": false,
                   "timeout": 180,
@@ -90,9 +89,9 @@
                   "conditions": [
                     [
                       {
-                        "a": "{{1.key}}",
-                        "b": null,
-                        "o": "exist"
+                        "a": "{{ifempty(1.key; \"BRAK\")}}",
+                        "b": "BRAK",
+                        "o": "text:notequal"
                       }
                     ]
                   ]
@@ -134,7 +133,7 @@
                               "data": "{{4.data}}"
                             }
                           ],
-                          "message": "{{1.tekst_posta}}",
+                          "message": "{{1.data.tekst_posta}}",
                           "page_id": "1282869891751448"
                         },
                         "module": "facebook-pages:CreatePostWithPhotos",
@@ -191,7 +190,7 @@
                         },
                         "mapper": {
                           "page_id": "1282869891751448",
-                          "message": "{{1.tekst_posta}}"
+                          "message": "{{1.data.tekst_posta}}"
                         },
                         "module": "facebook-pages:CreatePost",
                         "version": 6,
@@ -271,9 +270,9 @@
                   "conditions": [
                     [
                       {
-                        "a": "{{1.key}}",
-                        "b": null,
-                        "o": "notexist"
+                        "a": "{{ifempty(1.key; \"BRAK\")}}",
+                        "b": "BRAK",
+                        "o": "text:equal"
                       }
                     ]
                   ]
@@ -282,11 +281,10 @@
               {
                 "id": 21,
                 "mapper": {
-                  "url": "{{20.url_grafiki}}",
+                  "url": "{{20.data.url_grafiki}}",
                   "method": "get",
                   "headers": [],
                   "queryParameters": [],
-                  "contentType": "",
                   "parseResponse": false,
                   "stopOnHttpError": false,
                   "timeout": 180,
@@ -342,7 +340,7 @@
                               "data": "{{21.data}}"
                             }
                           ],
-                          "message": "{{20.tekst_posta}}",
+                          "message": "{{20.data.tekst_posta}}",
                           "page_id": "1282869891751448"
                         },
                         "module": "facebook-pages:CreatePostWithPhotos",
@@ -399,7 +397,7 @@
                         },
                         "mapper": {
                           "page_id": "1282869891751448",
-                          "message": "{{20.tekst_posta}}"
+                          "message": "{{20.data.tekst_posta}}"
                         },
                         "module": "facebook-pages:CreatePost",
                         "version": 6,

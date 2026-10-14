@@ -74,11 +74,18 @@ i `publikuj_o` późniejszym niż ostatni zapas (Publikator bierze najstarszy).
 - uzupełnione puste `page_id`; najświeższy post z 3 dni zamiast najstarszego;
 - grafikę pobiera Make i wysyła jako plik; gdy się nie pobierze → post tekstowy;
 - fallback na zapas, gdy brak świeżego posta AI;
+- **błąd od początku istnienia scenariusza:** moduł kolejki zwraca pola w obiekcie `data`
+  (`{{1.data.tekst_posta}}`, `{{1.data.url_grafiki}}`), a scenariusz mapował `{{1.tekst_posta}}`
+  → pusty URL → `BundleValidationError`. Poprawione;
+- filtr rozgałęzienia `ifempty(1.key; "BRAK")` (pusty wynik wyszukiwania daje pusty `key`, nie brak pola);
 - połączenie „Facebook — BekaWpigułce” (8898172) działa mimo daty `expire` 28.09
   (sprawdzone RPC `Pages`).
+- **Test na żywo 2026-10-14 22:58:** opublikowany `zapas-01` z kartą (post `1282869891751448_1549135587255224`).
 
 ## Znane ograniczenia
 
+- Generator tekstu AI (Pollinations, model `openai`) w teście 14.10 zwracał JSON bez pola `content`
+  (tylko `reasoning`) → posty AI trafiają do `odrzucony`; publikacja idzie z zapasu.
 - Pollinations (anonimowo) nie daje gwarancji: grafika AI może zwracać 401 —
   wtedy post AI idzie jako tekstowy (świadomie: stabilność > obrazek).
 - Zapas starcza na ~21 dni bez AI; dopisuj nowe posty co jakiś czas.
