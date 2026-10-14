@@ -1,5 +1,5 @@
 {
-  "_opis": "Beka Fabryka — stan w Make na 2026-10-14 ~19:45 (aktywna; router: czeka / odrzucony-log)",
+  "_opis": "Beka Fabryka — stan w Make (AKTYWNA, 10:00): AI → wyciąganie pola content → strażnik → czeka/odrzucony",
   "scenarioId": 6508676,
   "scheduling": {
     "time": "10:00",
@@ -89,7 +89,7 @@
           "timeout": 90,
           "contentType": "",
           "shareCookies": false,
-          "parseResponse": false,
+          "parseResponse": true,
           "allowRedirects": true,
           "queryParameters": [
             {
@@ -114,6 +114,21 @@
         },
         "parameters": {
           "authenticationType": "noAuth"
+        }
+      },
+      {
+        "id": 8,
+        "module": "util:ComposeTransformer",
+        "version": 1,
+        "parameters": {},
+        "mapper": {
+          "value": "{{trim(ifempty(4.data.content; if(4.data.role; emptystring; 4.data)))}}"
+        },
+        "metadata": {
+          "designer": {
+            "x": 875,
+            "y": 0
+          }
         }
       },
       {
@@ -142,48 +157,53 @@
                         "o": "number:equal"
                       },
                       {
-                        "a": "{{trim(4.data)}}",
+                        "a": "{{8.value}}",
                         "b": "{",
                         "o": "text:notstartwith"
                       },
                       {
-                        "a": "{{trim(4.data)}}",
+                        "a": "{{8.value}}",
                         "b": "<",
                         "o": "text:notstartwith"
                       },
                       {
-                        "a": "{{length(trim(4.data))}}",
+                        "a": "{{length(8.value)}}",
                         "b": "120",
                         "o": "number:greaterorequal"
                       },
                       {
-                        "a": "{{length(trim(4.data))}}",
+                        "a": "{{length(8.value)}}",
                         "b": "700",
                         "o": "number:lessorequal"
                       },
                       {
-                        "a": "{{4.data}}",
+                        "a": "{{8.value}}",
                         "b": "?",
                         "o": "text:contain"
                       },
                       {
-                        "a": "{{4.data}}",
+                        "a": "{{8.value}}",
                         "b": "#",
                         "o": "text:notcontain"
                       },
                       {
-                        "a": "{{4.data}}",
+                        "a": "{{8.value}}",
                         "b": "http",
                         "o": "text:notcontain:ci"
                       },
                       {
-                        "a": "{{4.data}}",
+                        "a": "{{8.value}}",
                         "b": "oto post",
                         "o": "text:notcontain:ci"
                       },
                       {
-                        "a": "{{4.data}}",
+                        "a": "{{8.value}}",
                         "b": "jako ai",
+                        "o": "text:notcontain:ci"
+                      },
+                      {
+                        "a": "{{8.value}}",
+                        "b": "reasoning",
                         "o": "text:notcontain:ci"
                       }
                     ]
@@ -195,8 +215,8 @@
                     "temat": "{{1.title}}",
                     "status": "czeka",
                     "publikuj_o": "{{now}}",
-                    "tekst_posta": "{{trim(4.data)}}\n\n#BekaWpigułce",
-                    "url_grafiki": "https://image.pollinations.ai/prompt/{{encodeURL(\"photorealistic candid funny everyday scene in Poland, ordinary anonymous people, lighthearted family friendly humor, natural light, 35mm photo, no celebrities, no politicians, no logos, no text, no watermark, scene: \" + first(split(trim(4.data); newline)))}}?width=1080&height=1350&nologo=true&model=flux&seed={{formatDate(now; \"X\")}}",
+                    "tekst_posta": "{{8.value}}\n\n#BekaWpigułce",
+                    "url_grafiki": "https://image.pollinations.ai/prompt/{{encodeURL(\"photorealistic candid funny everyday scene in Poland, ordinary anonymous people, lighthearted family friendly humor, natural light, 35mm photo, no celebrities, no politicians, no logos, no text, no watermark, scene: \" + first(split(8.value; newline)))}}?width=1080&height=1350&nologo=true&model=flux&seed={{formatDate(now; \"X\")}}",
                     "zrodlo_inspiracji": "{{1.url}}"
                   },
                   "overwrite": false
@@ -231,64 +251,71 @@
                     ],
                     [
                       {
-                        "a": "{{trim(4.data)}}",
+                        "a": "{{8.value}}",
                         "b": "{",
                         "o": "text:startwith"
                       }
                     ],
                     [
                       {
-                        "a": "{{trim(4.data)}}",
+                        "a": "{{8.value}}",
                         "b": "<",
                         "o": "text:startwith"
                       }
                     ],
                     [
                       {
-                        "a": "{{length(trim(4.data))}}",
+                        "a": "{{length(8.value)}}",
                         "b": "120",
                         "o": "number:less"
                       }
                     ],
                     [
                       {
-                        "a": "{{length(trim(4.data))}}",
+                        "a": "{{length(8.value)}}",
                         "b": "700",
                         "o": "number:greater"
                       }
                     ],
                     [
                       {
-                        "a": "{{4.data}}",
+                        "a": "{{8.value}}",
                         "b": "?",
                         "o": "text:notcontain"
                       }
                     ],
                     [
                       {
-                        "a": "{{4.data}}",
+                        "a": "{{8.value}}",
                         "b": "#",
                         "o": "text:contain"
                       }
                     ],
                     [
                       {
-                        "a": "{{4.data}}",
+                        "a": "{{8.value}}",
                         "b": "http",
                         "o": "text:contain:ci"
                       }
                     ],
                     [
                       {
-                        "a": "{{4.data}}",
+                        "a": "{{8.value}}",
                         "b": "oto post",
                         "o": "text:contain:ci"
                       }
                     ],
                     [
                       {
-                        "a": "{{4.data}}",
+                        "a": "{{8.value}}",
                         "b": "jako ai",
+                        "o": "text:contain:ci"
+                      }
+                    ],
+                    [
+                      {
+                        "a": "{{8.value}}",
+                        "b": "reasoning",
                         "o": "text:contain:ci"
                       }
                     ]
@@ -300,7 +327,7 @@
                     "temat": "{{1.title}}",
                     "status": "odrzucony",
                     "publikuj_o": "{{now}}",
-                    "tekst_posta": "HTTP {{4.statusCode}} | {{substring(toString(4.data); 0; 1500)}}",
+                    "tekst_posta": "HTTP {{4.statusCode}} | {{substring(ifempty(8.value; toString(4.data)); 0; 1500)}}",
                     "url_grafiki": "-",
                     "zrodlo_inspiracji": "{{1.url}}"
                   },
