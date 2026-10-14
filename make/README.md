@@ -38,12 +38,32 @@ Kopie stanu sprzed naprawy: `backup/*-2026-10-14.json`.
 - grafika: scena budowana z hooka posta (spójna z tekstem), bez celebrytów,
   polityków, logo i napisów; `private=true` dla tekstu (nie trafia do publicznego feedu Pollinations).
 
-**Publikator** (nigdy się nie uruchomił):
+- router na końcu: post, który przejdzie strażnika → `czeka`; odrzucony → `odrzucony`
+  (z kodem HTTP i surową odpowiedzią — podgląd, co psuje generator). Publikator bierze tylko `czeka`.
+
+**Publikator** (nigdy się nie uruchomił) — **aktywny od 2026-10-14**, pierwszy przebieg 15.10 o 18:00:
 - uzupełnione puste `page_id` → `1282869891751448`;
 - wybiera **najświeższy** post z ostatnich 3 dni (wcześniej najstarszy — newsowe tematy by się przeterminowały,
-  a jeden zepsuty rekord blokowałby kolejkę na zawsze).
-- ⚠ **Połączenie „Facebook — BekaWpigułce” (8898172) wygasło 28.09.2026** — trzeba je
-  odnowić ręcznie w Make (Connections → Reauthorize). Dopiero potem włączyć Publikatora.
+  a jeden zepsuty rekord blokowałby kolejkę na zawsze);
+- grafikę pobiera najpierw Make (timeout 180 s) i wysyła ją jako plik — Facebook nie musi czekać
+  na generator obrazków; gdy pobranie się nie uda, post nie wychodzi, rekord zostaje w kolejce.
+- Połączenie „Facebook — BekaWpigułce” (8898172) mimo daty `expire` 28.09 **działa**
+  (test RPC `Pages` zwraca stronę BekaWpigułce).
+
+## ⚠ Otwarty problem: generator tekstu (Pollinations)
+
+Test 2026-10-14: wszystkie 3 odpowiedzi odrzucone. Model `openai` w `text.pollinations.ai`
+jest teraz modelem „rozumującym” i zwraca JSON
+`{"role":"assistant","reasoning":"…","content":"…"}` zamiast czystego tekstu
+(to samo najpewniej działo się 11–12.09 — przebiegi „udane”, kolejka pusta).
+
+Gotowa poprawka (NIE wgrana — odrzucona przy zatwierdzaniu): w module HTTP
+`parseResponse: true` + moduł `util:ComposeTransformer` (id 8) z
+`{{trim(ifempty(4.data.content; if(4.data.role; emptystring; 4.data)))}}`,
+a w filtrach i mapowaniu `{{8.value}}` zamiast `{{4.data}}`.
+Alternatywa: moduł OpenAI z istniejącym połączeniem „My OpenAI connection” (płatne, stabilniejsze).
+
+Dopóki to nie jest naprawione, Fabryka nie dodaje postów `czeka`, więc Publikator nie ma czego publikować.
 
 ## Zasady treści (dla automatu i postów ręcznych)
 

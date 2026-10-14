@@ -1,5 +1,5 @@
 {
-  "_opis": "Beka Fabryka — stan po naprawie 2026-10-14 (aktywna)",
+  "_opis": "Beka Fabryka — stan w Make na 2026-10-14 ~19:45 (aktywna; router: czeka / odrzucony-log)",
   "scenarioId": 6508676,
   "scheduling": {
     "time": "10:00",
@@ -118,76 +118,8 @@
       },
       {
         "id": 5,
-        "filter": {
-          "name": "Strażnik jakości: czysty tekst, długość, pytanie, bez hashtagów/linków",
-          "conditions": [
-            [
-              {
-                "a": "{{4.statusCode}}",
-                "b": "200",
-                "o": "number:equal"
-              },
-              {
-                "a": "{{trim(4.data)}}",
-                "b": "{",
-                "o": "text:notstartwith"
-              },
-              {
-                "a": "{{trim(4.data)}}",
-                "b": "<",
-                "o": "text:notstartwith"
-              },
-              {
-                "a": "{{length(trim(4.data))}}",
-                "b": "120",
-                "o": "number:greaterorequal"
-              },
-              {
-                "a": "{{length(trim(4.data))}}",
-                "b": "700",
-                "o": "number:lessorequal"
-              },
-              {
-                "a": "{{4.data}}",
-                "b": "?",
-                "o": "text:contain"
-              },
-              {
-                "a": "{{4.data}}",
-                "b": "#",
-                "o": "text:notcontain"
-              },
-              {
-                "a": "{{4.data}}",
-                "b": "http",
-                "o": "text:notcontain:ci"
-              },
-              {
-                "a": "{{4.data}}",
-                "b": "oto post",
-                "o": "text:notcontain:ci"
-              },
-              {
-                "a": "{{4.data}}",
-                "b": "jako ai",
-                "o": "text:notcontain:ci"
-              }
-            ]
-          ]
-        },
-        "mapper": {
-          "key": "",
-          "data": {
-            "temat": "{{1.title}}",
-            "status": "czeka",
-            "publikuj_o": "{{now}}",
-            "tekst_posta": "{{trim(4.data)}}\n\n#BekaWpigułce",
-            "url_grafiki": "https://image.pollinations.ai/prompt/{{encodeURL(\"photorealistic candid funny everyday scene in Poland, ordinary anonymous people, lighthearted family friendly humor, natural light, 35mm photo, no celebrities, no politicians, no logos, no text, no watermark, scene: \" + first(split(trim(4.data); newline)))}}?width=1080&height=1350&nologo=true&model=flux&seed={{formatDate(now; \"X\")}}",
-            "zrodlo_inspiracji": "{{1.url}}"
-          },
-          "overwrite": false
-        },
-        "module": "datastore:AddRecord",
+        "mapper": null,
+        "module": "builtin:BasicRouter",
         "version": 1,
         "metadata": {
           "designer": {
@@ -195,9 +127,200 @@
             "y": 0
           }
         },
-        "parameters": {
-          "datastore": 145060
-        }
+        "routes": [
+          {
+            "flow": [
+              {
+                "id": 6,
+                "filter": {
+                  "name": "Strażnik jakości OK",
+                  "conditions": [
+                    [
+                      {
+                        "a": "{{4.statusCode}}",
+                        "b": "200",
+                        "o": "number:equal"
+                      },
+                      {
+                        "a": "{{trim(4.data)}}",
+                        "b": "{",
+                        "o": "text:notstartwith"
+                      },
+                      {
+                        "a": "{{trim(4.data)}}",
+                        "b": "<",
+                        "o": "text:notstartwith"
+                      },
+                      {
+                        "a": "{{length(trim(4.data))}}",
+                        "b": "120",
+                        "o": "number:greaterorequal"
+                      },
+                      {
+                        "a": "{{length(trim(4.data))}}",
+                        "b": "700",
+                        "o": "number:lessorequal"
+                      },
+                      {
+                        "a": "{{4.data}}",
+                        "b": "?",
+                        "o": "text:contain"
+                      },
+                      {
+                        "a": "{{4.data}}",
+                        "b": "#",
+                        "o": "text:notcontain"
+                      },
+                      {
+                        "a": "{{4.data}}",
+                        "b": "http",
+                        "o": "text:notcontain:ci"
+                      },
+                      {
+                        "a": "{{4.data}}",
+                        "b": "oto post",
+                        "o": "text:notcontain:ci"
+                      },
+                      {
+                        "a": "{{4.data}}",
+                        "b": "jako ai",
+                        "o": "text:notcontain:ci"
+                      }
+                    ]
+                  ]
+                },
+                "mapper": {
+                  "key": "",
+                  "data": {
+                    "temat": "{{1.title}}",
+                    "status": "czeka",
+                    "publikuj_o": "{{now}}",
+                    "tekst_posta": "{{trim(4.data)}}\n\n#BekaWpigułce",
+                    "url_grafiki": "https://image.pollinations.ai/prompt/{{encodeURL(\"photorealistic candid funny everyday scene in Poland, ordinary anonymous people, lighthearted family friendly humor, natural light, 35mm photo, no celebrities, no politicians, no logos, no text, no watermark, scene: \" + first(split(trim(4.data); newline)))}}?width=1080&height=1350&nologo=true&model=flux&seed={{formatDate(now; \"X\")}}",
+                    "zrodlo_inspiracji": "{{1.url}}"
+                  },
+                  "overwrite": false
+                },
+                "module": "datastore:AddRecord",
+                "version": 1,
+                "metadata": {
+                  "designer": {
+                    "x": 1250,
+                    "y": -150
+                  }
+                },
+                "parameters": {
+                  "datastore": 145060
+                }
+              }
+            ]
+          },
+          {
+            "flow": [
+              {
+                "id": 7,
+                "filter": {
+                  "name": "Odrzucone przez strażnika (log)",
+                  "conditions": [
+                    [
+                      {
+                        "a": "{{4.statusCode}}",
+                        "b": "200",
+                        "o": "number:notequal"
+                      }
+                    ],
+                    [
+                      {
+                        "a": "{{trim(4.data)}}",
+                        "b": "{",
+                        "o": "text:startwith"
+                      }
+                    ],
+                    [
+                      {
+                        "a": "{{trim(4.data)}}",
+                        "b": "<",
+                        "o": "text:startwith"
+                      }
+                    ],
+                    [
+                      {
+                        "a": "{{length(trim(4.data))}}",
+                        "b": "120",
+                        "o": "number:less"
+                      }
+                    ],
+                    [
+                      {
+                        "a": "{{length(trim(4.data))}}",
+                        "b": "700",
+                        "o": "number:greater"
+                      }
+                    ],
+                    [
+                      {
+                        "a": "{{4.data}}",
+                        "b": "?",
+                        "o": "text:notcontain"
+                      }
+                    ],
+                    [
+                      {
+                        "a": "{{4.data}}",
+                        "b": "#",
+                        "o": "text:contain"
+                      }
+                    ],
+                    [
+                      {
+                        "a": "{{4.data}}",
+                        "b": "http",
+                        "o": "text:contain:ci"
+                      }
+                    ],
+                    [
+                      {
+                        "a": "{{4.data}}",
+                        "b": "oto post",
+                        "o": "text:contain:ci"
+                      }
+                    ],
+                    [
+                      {
+                        "a": "{{4.data}}",
+                        "b": "jako ai",
+                        "o": "text:contain:ci"
+                      }
+                    ]
+                  ]
+                },
+                "mapper": {
+                  "key": "",
+                  "data": {
+                    "temat": "{{1.title}}",
+                    "status": "odrzucony",
+                    "publikuj_o": "{{now}}",
+                    "tekst_posta": "HTTP {{4.statusCode}} | {{substring(toString(4.data); 0; 1500)}}",
+                    "url_grafiki": "-",
+                    "zrodlo_inspiracji": "{{1.url}}"
+                  },
+                  "overwrite": false
+                },
+                "module": "datastore:AddRecord",
+                "version": 1,
+                "metadata": {
+                  "designer": {
+                    "x": 1250,
+                    "y": 150
+                  }
+                },
+                "parameters": {
+                  "datastore": 145060
+                }
+              }
+            ]
+          }
+        ]
       }
     ],
     "name": "Beka Fabryka — trendy → oryginalne posty (AI)",

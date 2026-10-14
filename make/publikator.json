@@ -1,5 +1,5 @@
 {
-  "_opis": "Beka Publikator — stan po naprawie 2026-10-14 (wyłączony do czasu odnowienia połączenia FB 8898172)",
+  "_opis": "Beka Publikator — stan w Make na 2026-10-14 (AKTYWNY, następne uruchomienie 2026-10-15 18:00)",
   "scenarioId": 6510968,
   "scheduling": {
     "time": "18:00",
@@ -45,12 +45,52 @@
         }
       },
       {
+        "id": 4,
+        "mapper": {
+          "url": "{{1.url_grafiki}}",
+          "method": "get",
+          "headers": [],
+          "queryParameters": [],
+          "contentType": "",
+          "parseResponse": false,
+          "stopOnHttpError": false,
+          "timeout": 180,
+          "allowRedirects": true,
+          "shareCookies": false,
+          "requestCompressedContent": true
+        },
+        "module": "http:MakeRequest",
+        "version": 4,
+        "metadata": {
+          "designer": {
+            "x": 250,
+            "y": 0
+          }
+        },
+        "parameters": {
+          "authenticationType": "noAuth"
+        }
+      },
+      {
         "id": 2,
+        "filter": {
+          "name": "Grafika pobrana poprawnie",
+          "conditions": [
+            [
+              {
+                "a": "{{4.statusCode}}",
+                "b": "200",
+                "o": "number:equal"
+              }
+            ]
+          ]
+        },
         "mapper": {
           "photos": [
             {
-              "url": "{{1.url_grafiki}}",
-              "type": "url"
+              "type": "data",
+              "fileName": "bekawpigulce.jpg",
+              "data": "{{4.data}}"
             }
           ],
           "message": "{{1.tekst_posta}}",
@@ -60,7 +100,7 @@
         "version": 6,
         "metadata": {
           "designer": {
-            "x": 300,
+            "x": 500,
             "y": 0
           }
         },
@@ -82,7 +122,7 @@
         "version": 1,
         "metadata": {
           "designer": {
-            "x": 600,
+            "x": 750,
             "y": 0
           }
         },
@@ -104,7 +144,7 @@
         "maxErrors": 3,
         "autoCommit": true,
         "roundtrips": 1,
-        "sequential": false,
+        "sequential": true,
         "confidential": false,
         "freshVariables": false,
         "autoCommitTriggerLast": true
