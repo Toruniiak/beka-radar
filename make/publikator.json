@@ -62,7 +62,7 @@
               {
                 "id": 4,
                 "mapper": {
-                  "url": "{{1.data.url_grafiki}}",
+                  "url": "https://raw.githubusercontent.com/Toruniiak/beka-radar/6e18779826be40054436e943e58f761617b1f8e6/karty/dzien-{{formatDate(now; \"d\")}}.png",
                   "method": "get",
                   "headers": [],
                   "queryParameters": [],

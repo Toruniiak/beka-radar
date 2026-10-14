@@ -1,18 +1,38 @@
 {
-  "_opis": "Beka Fabryka — stan w Make (AKTYWNA, 10:00): AI → wyciąganie pola content → strażnik → czeka/odrzucony",
+  "_opis": "Beka Fabryka — stan w Make (AKTYWNA, 10:00): Make AI (large) → strażnik → czeka/odrzucony",
   "scenarioId": 6508676,
   "scheduling": {
     "time": "10:00",
     "type": "daily"
   },
   "blueprint": {
+    "name": "Beka Fabryka — trendy → oryginalne posty (AI)",
+    "metadata": {
+      "instant": false,
+      "version": 1,
+      "designer": {
+        "orphans": []
+      },
+      "scenario": {
+        "dlq": false,
+        "slots": null,
+        "dataloss": false,
+        "maxErrors": 6,
+        "autoCommit": true,
+        "roundtrips": 1,
+        "sequential": true,
+        "confidential": false,
+        "freshVariables": false,
+        "autoCommitTriggerLast": true
+      }
+    },
     "flow": [
       {
         "id": 1,
         "mapper": {
           "url": "https://news.google.com/rss/search?q=%28pogoda%20OR%20upa%C5%82%20OR%20Biedronka%20OR%20Lidl%20OR%20PKP%20OR%20korki%20OR%20ceny%20OR%20urlop%20OR%20weekend%20OR%20szko%C5%82a%20OR%20remont%20OR%20dzia%C5%82ka%29%20when%3A1d&hl=pl&gl=PL&ceid=PL:pl",
           "gzip": true,
-          "maxResults": 3
+          "maxResults": 2
         },
         "module": "rss:ActionReadArticles",
         "version": 4,
@@ -54,67 +74,47 @@
         }
       },
       {
-        "id": 3,
+        "id": 4,
         "filter": {
           "name": "Tylko nowe tematy (deduplikacja)",
           "conditions": [
             [
               {
-                "a": "{{2.key}}",
-                "b": null,
-                "o": "notexist"
+                "a": "{{ifempty(2.key; \"BRAK\")}}",
+                "b": "BRAK",
+                "o": "text:equal"
               }
             ]
           ]
         },
         "mapper": {
-          "duration": 20
+          "input": "Jesteś autorem fanpage'a BekaWpigułce – polski humor obserwacyjny o codzienności. Inspiracja dnia (nagłówek z Polski, NIE cytuj go, nie podawaj z niego nazwisk ani nazw firm): {{1.title}}. Napisz JEDEN oryginalny post na Facebooka o sytuacji, którą zna każdy Polak, luźno związanej z tym tematem. Jeśli temat dotyczy polityki, przestępstwa, wypadku, choroby, śmierci, wojny, religii albo konkretnych osób, całkowicie go pomiń i napisz o zwykłej codzienności (praca, zakupy, pogoda, dom, rodzina, dojazdy). Budowa posta: pierwsza linijka to hook do 80 znaków, który zatrzymuje scrollowanie; pusta linia; 2–3 krótkie zdania rozwinięcia z jednym konkretnym, obrazowym szczegółem; pusta linia; zabawna puenta; pusta linia; jedno otwarte pytanie, które zachęca do opisania własnej historii albo wyboru jednej z opcji. Zakazy: żadnych hashtagów, linków, nazwisk, wulgaryzmów, żadnych próśb typu polub, udostępnij, oznacz znajomego, żadnych wstępów typu Oto post, żadnych cudzysłowów wokół całego tekstu. Styl: luz, autoironia, poprawna polszczyzna z polskimi znakami, maksymalnie 2 emoji. Długość 250–450 znaków. Zwróć wyłącznie gotowy tekst posta."
         },
-        "module": "util:FunctionSleep",
-        "version": 1,
+        "module": "ai-tools:Ask",
+        "version": 2,
         "metadata": {
           "designer": {
             "x": 500,
             "y": 0
           }
         },
-        "parameters": {}
-      },
-      {
-        "id": 4,
-        "mapper": {
-          "url": "https://text.pollinations.ai/{{encodeURL(\"Jesteś autorem fanpage'a BekaWpigułce – polski humor obserwacyjny o codzienności. Inspiracja dnia (nagłówek z Polski, NIE cytuj go, nie podawaj z niego nazwisk ani nazw firm): \" + 1.title + \". Napisz JEDEN oryginalny post na Facebooka o sytuacji, którą zna każdy Polak, luźno związanej z tym tematem. Jeśli temat dotyczy polityki, przestępstwa, wypadku, choroby, śmierci, wojny, religii albo konkretnych osób, całkowicie go pomiń i napisz o zwykłej codzienności (praca, zakupy, pogoda, dom, rodzina, dojazdy). Budowa posta: pierwsza linijka to hook do 80 znaków, który zatrzymuje scrollowanie; pusta linia; 2–3 krótkie zdania rozwinięcia z jednym konkretnym, obrazowym szczegółem; pusta linia; zabawna puenta; pusta linia; jedno otwarte pytanie, które zachęca do opisania własnej historii albo wyboru jednej z opcji. Zakazy: żadnych hashtagów, linków, nazwisk, wulgaryzmów, żadnych próśb typu polub, udostępnij, oznacz znajomego, żadnych wstępów typu Oto post. Styl: luz, autoironia, poprawna polszczyzna z polskimi znakami, maksymalnie 2 emoji. Długość 250–450 znaków. Zwróć wyłącznie gotowy tekst posta, bez cudzysłowów.\")}}",
-          "method": "get",
-          "headers": [],
-          "timeout": 90,
-          "contentType": "",
-          "shareCookies": false,
-          "parseResponse": true,
-          "allowRedirects": true,
-          "queryParameters": [
-            {
-              "name": "model",
-              "value": "openai"
-            },
-            {
-              "name": "private",
-              "value": "true"
-            }
-          ],
-          "stopOnHttpError": false,
-          "requestCompressedContent": true
-        },
-        "module": "http:MakeRequest",
-        "version": 4,
-        "metadata": {
-          "designer": {
-            "x": 750,
-            "y": 0
-          }
-        },
         "parameters": {
-          "authenticationType": "noAuth"
-        }
+          "makeConnectionId": 8363058,
+          "model": "large"
+        },
+        "onerror": [
+          {
+            "id": 9,
+            "module": "builtin:Ignore",
+            "version": 1,
+            "metadata": {
+              "designer": {
+                "x": 500,
+                "y": 200
+              }
+            }
+          }
+        ]
       },
       {
         "id": 8,
@@ -122,11 +122,11 @@
         "version": 1,
         "parameters": {},
         "mapper": {
-          "value": "{{trim(ifempty(4.data.content; if(4.data.role; emptystring; 4.data)))}}"
+          "value": "{{trim(4.answer)}}"
         },
         "metadata": {
           "designer": {
-            "x": 875,
+            "x": 750,
             "y": 0
           }
         }
@@ -151,21 +151,6 @@
                   "name": "Strażnik jakości OK",
                   "conditions": [
                     [
-                      {
-                        "a": "{{4.statusCode}}",
-                        "b": "200",
-                        "o": "number:equal"
-                      },
-                      {
-                        "a": "{{8.value}}",
-                        "b": "{",
-                        "o": "text:notstartwith"
-                      },
-                      {
-                        "a": "{{8.value}}",
-                        "b": "<",
-                        "o": "text:notstartwith"
-                      },
                       {
                         "a": "{{length(8.value)}}",
                         "b": "120",
@@ -203,7 +188,7 @@
                       },
                       {
                         "a": "{{8.value}}",
-                        "b": "reasoning",
+                        "b": "jako model",
                         "o": "text:notcontain:ci"
                       }
                     ]
@@ -211,15 +196,15 @@
                 },
                 "mapper": {
                   "key": "",
+                  "overwrite": false,
                   "data": {
                     "temat": "{{1.title}}",
                     "status": "czeka",
                     "publikuj_o": "{{now}}",
                     "tekst_posta": "{{8.value}}\n\n#BekaWpigułce",
-                    "url_grafiki": "https://image.pollinations.ai/prompt/{{encodeURL(\"photorealistic candid funny everyday scene in Poland, ordinary anonymous people, lighthearted family friendly humor, natural light, 35mm photo, no celebrities, no politicians, no logos, no text, no watermark, scene: \" + first(split(8.value; newline)))}}?width=1080&height=1350&nologo=true&model=flux&seed={{formatDate(now; \"X\")}}",
+                    "url_grafiki": "https://raw.githubusercontent.com/Toruniiak/beka-radar/6e18779826be40054436e943e58f761617b1f8e6/karty/dzien-{{formatDate(now; \"d\")}}.png",
                     "zrodlo_inspiracji": "{{1.url}}"
-                  },
-                  "overwrite": false
+                  }
                 },
                 "module": "datastore:AddRecord",
                 "version": 1,
@@ -242,27 +227,6 @@
                 "filter": {
                   "name": "Odrzucone przez strażnika (log)",
                   "conditions": [
-                    [
-                      {
-                        "a": "{{4.statusCode}}",
-                        "b": "200",
-                        "o": "number:notequal"
-                      }
-                    ],
-                    [
-                      {
-                        "a": "{{8.value}}",
-                        "b": "{",
-                        "o": "text:startwith"
-                      }
-                    ],
-                    [
-                      {
-                        "a": "{{8.value}}",
-                        "b": "<",
-                        "o": "text:startwith"
-                      }
-                    ],
                     [
                       {
                         "a": "{{length(8.value)}}",
@@ -315,7 +279,7 @@
                     [
                       {
                         "a": "{{8.value}}",
-                        "b": "reasoning",
+                        "b": "jako model",
                         "o": "text:contain:ci"
                       }
                     ]
@@ -323,15 +287,15 @@
                 },
                 "mapper": {
                   "key": "",
+                  "overwrite": false,
                   "data": {
                     "temat": "{{1.title}}",
                     "status": "odrzucony",
                     "publikuj_o": "{{now}}",
-                    "tekst_posta": "HTTP {{4.statusCode}} | {{substring(ifempty(8.value; toString(4.data)); 0; 1500)}}",
+                    "tekst_posta": "{{substring(8.value; 0; 1500)}}",
                     "url_grafiki": "-",
                     "zrodlo_inspiracji": "{{1.url}}"
-                  },
-                  "overwrite": false
+                  }
                 },
                 "module": "datastore:AddRecord",
                 "version": 1,
@@ -349,34 +313,6 @@
           }
         ]
       }
-    ],
-    "name": "Beka Fabryka — trendy → oryginalne posty (AI)",
-    "metadata": {
-      "instant": false,
-      "version": 1,
-      "designer": {
-        "orphans": []
-      },
-      "scenario": {
-        "dlq": false,
-        "slots": null,
-        "dataloss": false,
-        "maxErrors": 6,
-        "autoCommit": true,
-        "roundtrips": 1,
-        "sequential": true,
-        "confidential": false,
-        "freshVariables": false,
-        "autoCommitTriggerLast": true
-      }
-    },
-    "scheduling": {
-      "time": "10:00",
-      "type": "daily"
-    },
-    "interface": {
-      "input": [],
-      "output": []
-    }
+    ]
   }
 }
