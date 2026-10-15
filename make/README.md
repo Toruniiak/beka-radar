@@ -126,7 +126,7 @@ z pliku w `backup/`. Albo przez API/MCP `scenarios_update` z tym blueprintem.
 - **Blokada duplikatów:** przed publikacją scenariusz zapisuje w kolejce rekord `plan-RRRR-MM-DD-slot`
   (status `plan`); gdy taki rekord już jest, kolejne uruchomienie tego dnia nic nie publikuje (koszt: 1 operacja).
 - Rekordy `zapas-04…50` mają status `w_planie` (są już w plikach planu, żeby awaryjna ścieżka ich nie powtórzyła);
-  wyjątek: `zapas-44` został `zapas` (zmiana odrzucona w oknie zgody) — przy awarii GitHuba może wyjść drugi raz.
+  (zapas-44 też — poprawione 15.10).
 - Koszt: ~6 operacji / post → ~360 operacji / miesiąc (limit Free: 1000).
 
 **Treść (generator/plan.py, 728 terminów 16.10.2026 – 15.10.2027):**
