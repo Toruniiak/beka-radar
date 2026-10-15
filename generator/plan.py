@@ -21,7 +21,7 @@ SLOTS = ("poludnie", "wieczor")
 PRZERWY = {dt.date(2026, 11, 1)}           # Wszystkich Świętych — bez publikacji
 ZAPAS_OD = 3                               # zapas-01..02 opublikowane, zapas-03 wyszedł 15.10 wieczorem
 HASHTAG = "#BekaWpigułce"
-ZAKAZANE = ["lidl", "biedronk", "polub", "udostępnij", "oznacz", "#", "http", "kurw", "jeb"]
+ZAKAZANE = ["lidl", "biedronk", "polub", "udostępnij", "oznacz znajom", "oznacz kogoś", "#", "http", "kurw", "jeb"]
 
 
 def sloty():

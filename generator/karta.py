@@ -77,7 +77,12 @@ def fit(draw, text, font_path, max_width, max_height):
     return font, wrap(draw, text, font, max_width), int(40 * 1.22)
 
 
+# emoji nie ma w DejaVu (rysowałyby się „kwadraty”) — na karcie je pomijamy, w treści posta zostają
+EMOJI = re.compile("[\U0001F000-\U0001FFFF\u2300-\u23FF\u2600-\u27BF\u2B00-\u2BFF\uFE0F\u200D]+")
+
+
 def render(hook, out_path, font_path):
+    hook = re.sub(r"\s{2,}", " ", EMOJI.sub("", hook)).strip()
     img = Image.new("RGB", (W, H), BG)
     d = ImageDraw.Draw(img)
 
