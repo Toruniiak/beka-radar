@@ -1,5 +1,5 @@
 {
-  "_opis": "Beka Fabryka — stan w Make (AKTYWNA, 10:00): filtr tematów → Make AI (large, few-shot) → strażnik → czeka/odrzucony",
+  "_opis": "Beka Fabryka — stan w Make (AKTYWNA, 10:00): filtr tematów → Make AI (large, few-shot) → AI-redaktor (ocena ≥8) → strażnik → czeka/odrzucony",
   "scenarioId": 6508676,
   "scheduling": {
     "time": "10:00",
@@ -198,7 +198,7 @@
           ]
         },
         "mapper": {
-          "input": "Jesteś autorem fanpage'a BekaWpigułce – polski humor obserwacyjny o codzienności, ciepły i autoironiczny, nikogo nie obraża. Inspiracja dnia (nagłówek, tylko jako luźny punkt wyjścia; NIE cytuj go): {{1.title}}.\n\nNapisz JEDEN oryginalny post na Facebooka o sytuacji, którą zna każdy Polak. Jeśli nagłówek dotyczy polityki, nieszczęścia, przestępstwa, choroby albo konkretnych osób — zignoruj go i napisz o zwykłej codzienności (praca, zakupy, pogoda, dom, rodzina, dojazdy).\n\nWzór stylu i budowy (NIE kopiuj treści, tylko formę):\n---\nPolak w sklepie: „wchodzę tylko po chleb”.\n\nCzterdzieści minut później wychodzi z dwiema torbami, patelnią z promocji i przekonaniem, że to była okazja życia. Chleba oczywiście nie ma, bo „już nie było świeżego”.\n\nNajdroższy chleb świata kosztował 187 zł i nawet nie trafił do koszyka.\n\nCo ostatnio kupiliście „przy okazji”, choć szliście po coś zupełnie innego? 👇\n---\nNajszybszy człowiek świata? Polak, gdy otwierają drugą kasę.\n\nJedno „zapraszam do kasy obok” i kolejka rozpada się jak w filmie akcji. Starsza pani z koszykiem wyprzedza sprintera, a Ty stoisz z jednym jogurtem i wiesz, że przegrałeś, zanim zrobiłeś krok.\n\nRekordziści olimpijscy nie mieliby szans.\n\nJesteście sprinterami czy z godnością zostajecie w swojej kolejce? 😂\n---\n\nWymagania: 1) pierwsza linijka to krótki hook (do 80 znaków); 2) pusta linia; 3) 2–3 krótkie zdania z jednym konkretnym, obrazowym, prawdopodobnym szczegółem z polskiej codzienności; 4) pusta linia; 5) puenta; 6) pusta linia; 7) jedno otwarte pytanie do czytelników. Zakazy: nazwy marek, sklepów i firm, nazwiska, polityka, hashtagi, linki, wulgaryzmy, prośby typu polub/udostępnij/oznacz znajomego, wstępy typu Oto post, cudzysłów wokół całości, więcej niż jedna pusta linia z rzędu. Pisz naturalną, poprawną polszczyzną — każde zdanie ma mieć sens i brzmieć jak napisane przez Polaka. Maksymalnie 2 emoji. Długość 250–450 znaków. Zwróć wyłącznie gotowy tekst posta."
+          "input": "Jesteś autorem fanpage'a BekaWpigułce – polski humor obserwacyjny o codzienności, ciepły i autoironiczny, nikogo nie obraża. Inspiracja dnia (nagłówek, tylko jako luźny punkt wyjścia; NIE cytuj go): {{1.title}}.\n\nNapisz JEDEN oryginalny post na Facebooka o sytuacji, którą zna każdy Polak. Jeśli nagłówek dotyczy polityki, nieszczęścia, przestępstwa, choroby albo konkretnych osób — zignoruj go i napisz o zwykłej codzienności (praca, zakupy, pogoda, dom, rodzina, dojazdy).\n\nWzór stylu i budowy (NIE kopiuj treści ani pytań, tylko formę; temat i pytanie muszą być nowe):\n---\nPolak w sklepie: „wchodzę tylko po chleb”.\n\nCzterdzieści minut później wychodzi z dwiema torbami, patelnią z promocji i przekonaniem, że to była okazja życia. Chleba oczywiście nie ma, bo „już nie było świeżego”.\n\nNajdroższy chleb świata kosztował 187 zł i nawet nie trafił do koszyka.\n\nCo ostatnio kupiliście „przy okazji”, choć szliście po coś zupełnie innego? 👇\n---\nNajszybszy człowiek świata? Polak, gdy otwierają drugą kasę.\n\nJedno „zapraszam do kasy obok” i kolejka rozpada się jak w filmie akcji. Starsza pani z koszykiem wyprzedza sprintera, a Ty stoisz z jednym jogurtem i wiesz, że przegrałeś, zanim zrobiłeś krok.\n\nRekordziści olimpijscy nie mieliby szans.\n\nJesteście sprinterami czy z godnością zostajecie w swojej kolejce? 😂\n---\n\nWymagania: 1) pierwsza linijka to krótki hook (do 80 znaków); 2) pusta linia; 3) 2–3 krótkie zdania z jednym konkretnym, obrazowym, prawdopodobnym szczegółem z polskiej codzienności; 4) pusta linia; 5) puenta; 6) pusta linia; 7) jedno otwarte pytanie do czytelników. Zakazy: nazwy marek, sklepów i firm, nazwiska, polityka, hashtagi, linki, wulgaryzmy, prośby typu polub/udostępnij/oznacz znajomego, wstępy typu Oto post, cudzysłów wokół całości, więcej niż jedna pusta linia z rzędu. Pisz naturalną, poprawną polszczyzną — każde zdanie ma mieć sens i brzmieć jak napisane przez Polaka. Maksymalnie 2 emoji. Długość 250–450 znaków. Zwróć wyłącznie gotowy tekst posta."
         },
         "module": "ai-tools:Ask",
         "version": 2,
@@ -240,6 +240,37 @@
             "y": 0
           }
         }
+      },
+      {
+        "id": 10,
+        "module": "ai-tools:Ask",
+        "version": 2,
+        "parameters": {
+          "makeConnectionId": 8363058,
+          "model": "large"
+        },
+        "mapper": {
+          "input": "Jesteś surowym redaktorem polskiego fanpage'a z humorem. Oceń poniższy post w skali 1–10. Daj 8 lub więcej TYLKO jeśli: każde zdanie ma logiczny sens i opisuje realną, prawdopodobną sytuację; polszczyzna jest naturalna i bezbłędna; tekst jest naprawdę zabawny; nie ma nazw marek, sklepów, nazwisk, polityki ani nieszczęść; kończy się sensownym pytaniem do czytelników. Za każde dziwne, nielogiczne lub sztuczne sformułowanie daj maksymalnie 5. Odpowiedz WYŁĄCZNIE jedną liczbą całkowitą.\n\nPOST:\n{{8.value}}"
+        },
+        "metadata": {
+          "designer": {
+            "x": 875,
+            "y": 0
+          }
+        },
+        "onerror": [
+          {
+            "id": 11,
+            "module": "builtin:Ignore",
+            "version": 1,
+            "metadata": {
+              "designer": {
+                "x": 875,
+                "y": 200
+              }
+            }
+          }
+        ]
       },
       {
         "id": 5,
@@ -320,6 +351,11 @@
                         "a": "{{8.value}}",
                         "b": "\n \n",
                         "o": "text:notcontain"
+                      },
+                      {
+                        "a": "{{trim(10.answer)}}",
+                        "b": "8",
+                        "o": "number:greaterorequal"
                       }
                     ]
                   ]
@@ -440,6 +476,13 @@
                         "b": "\n \n",
                         "o": "text:contain"
                       }
+                    ],
+                    [
+                      {
+                        "a": "{{trim(10.answer)}}",
+                        "b": "8",
+                        "o": "number:less"
+                      }
                     ]
                   ]
                 },
@@ -450,7 +493,7 @@
                     "temat": "{{1.title}}",
                     "status": "odrzucony",
                     "publikuj_o": "{{now}}",
-                    "tekst_posta": "{{substring(8.value; 0; 1500)}}",
+                    "tekst_posta": "OCENA {{trim(10.answer)}} | {{substring(8.value; 0; 1500)}}",
                     "url_grafiki": "-",
                     "zrodlo_inspiracji": "{{1.url}}"
                   }
