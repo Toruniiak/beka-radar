@@ -857,16 +857,6 @@
    "poprawna": "C"
   },
   {
-   "pytanie": "Jak nazywa się stolica Kanady?",
-   "opcje": [
-    "Toronto",
-    "Montreal",
-    "Vancouver",
-    "Ottawa"
-   ],
-   "poprawna": "D"
-  },
-  {
    "pytanie": "Kto namalował „Mona Lisę”?",
    "opcje": [
     "Leonardo da Vinci",

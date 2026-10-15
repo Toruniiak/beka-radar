@@ -136,6 +136,14 @@ def zbuduj():
         typy[klucz]["kiedy"] = kiedy
         plan[ckey] = plan[ckey].rstrip() + "\n\n" + dopisek
 
+    # ręczne dopiski (np. rozwiązanie quizu opublikowanego poza planem) — generator/dopiski.json
+    sciezka = os.path.join(ROOT, "generator/dopiski.json")
+    for k, dopisek in (json.load(open(sciezka, encoding="utf-8")).items() if os.path.exists(sciezka) else []):
+        if plan.get(k) is None:
+            bledy.append(f"dopiski.json: brak terminu {k}")
+        else:
+            plan[k] = plan[k].rstrip() + "\n\n" + dopisek
+
     for m, u in uzyte.items():
         for s in SLOTS:
             nadmiar = len(miesiace[m].get(s, [])) - u[s]
