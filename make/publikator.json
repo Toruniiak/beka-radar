@@ -95,9 +95,14 @@
         "mapper": {
          "url": "https://raw.githubusercontent.com/Toruniiak/beka-radar/6e18779826be40054436e943e58f761617b1f8e6/karty/dzien-{{formatDate(now; \"d\")}}.png",
          "method": "get",
+         "headers": [],
+         "queryParameters": [],
          "parseResponse": false,
          "stopOnHttpError": false,
-         "timeout": 180
+         "timeout": 180,
+         "allowRedirects": true,
+         "shareCookies": false,
+         "requestCompressedContent": true
         },
         "module": "http:MakeRequest",
         "version": 4,
@@ -254,9 +259,14 @@
         "mapper": {
          "url": "https://raw.githubusercontent.com/Toruniiak/beka-radar/ccr-8750d6fc-oi48wv/plan/{{formatDate(now; \"YYYY-MM-DD\")}}-wieczor.txt",
          "method": "get",
+         "headers": [],
+         "queryParameters": [],
          "parseResponse": true,
          "stopOnHttpError": false,
-         "timeout": 180
+         "timeout": 180,
+         "allowRedirects": true,
+         "shareCookies": false,
+         "requestCompressedContent": true
         },
         "filter": {
          "name": "Brak zatwierdzonego posta AI → plan",
@@ -289,9 +299,14 @@
             "mapper": {
              "url": "https://raw.githubusercontent.com/Toruniiak/beka-radar/ccr-8750d6fc-oi48wv/karty/plan/{{formatDate(now; \"YYYY-MM-DD\")}}-wieczor.png",
              "method": "get",
+             "headers": [],
+             "queryParameters": [],
              "parseResponse": false,
              "stopOnHttpError": false,
-             "timeout": 180
+             "timeout": 180,
+             "allowRedirects": true,
+             "shareCookies": false,
+             "requestCompressedContent": true
             },
             "filter": {
              "name": "Plik planu OK i nie POMIN",
@@ -449,9 +464,14 @@
             "mapper": {
              "url": "{{20.data.url_grafiki}}",
              "method": "get",
+             "headers": [],
+             "queryParameters": [],
              "parseResponse": false,
              "stopOnHttpError": false,
-             "timeout": 180
+             "timeout": 180,
+             "allowRedirects": true,
+             "shareCookies": false,
+             "requestCompressedContent": true
             },
             "module": "http:MakeRequest",
             "version": 4,
