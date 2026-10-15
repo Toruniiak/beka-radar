@@ -1,5 +1,5 @@
 {
-  "_opis": "Beka Fabryka — stan w Make (AKTYWNA, 10:00): filtr tematów → Make AI (large, few-shot) → AI-redaktor (ocena ≥8) → strażnik → czeka/odrzucony",
+  "_opis": "Beka Fabryka — stan w Make (AKTYWNA, 10:00): AI pisze propozycje (status 'propozycja', NIE publikowane automatycznie); zmień status na 'czeka', aby opublikować",
   "scenarioId": 6508676,
   "scheduling": {
     "time": "10:00",
@@ -289,7 +289,7 @@
               {
                 "id": 6,
                 "filter": {
-                  "name": "Strażnik jakości OK",
+                  "name": "Strażnik jakości OK → propozycja (do ręcznej akceptacji)",
                   "conditions": [
                     [
                       {
@@ -365,7 +365,7 @@
                   "overwrite": false,
                   "data": {
                     "temat": "{{1.title}}",
-                    "status": "czeka",
+                    "status": "propozycja",
                     "publikuj_o": "{{now}}",
                     "tekst_posta": "{{8.value}}\n\n#BekaWpigułce",
                     "url_grafiki": "https://raw.githubusercontent.com/Toruniiak/beka-radar/6e18779826be40054436e943e58f761617b1f8e6/karty/dzien-{{formatDate(now; \"d\")}}.png",

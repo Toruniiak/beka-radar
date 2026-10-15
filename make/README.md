@@ -107,3 +107,19 @@ i `publikuj_o` późniejszym niż ostatni zapas (Publikator bierze najstarszy).
 
 W Make: scenariusz → `…` → Import Blueprint → wklej zawartość pola `blueprint`
 z pliku w `backup/`. Albo przez API/MCP `scenarios_update` z tym blueprintem.
+
+
+## Stan na 2026-10-15 (wersja produkcyjna)
+
+- **Publikacja:** codziennie 18:00 jeden post z zapasu (50 ręcznie napisanych postów z kartami,
+  `generator/zapas.json` + `karty/`). Post AI trafia na stronę tylko wtedy, gdy ktoś zmieni jego status na `czeka`.
+- **Fabryka AI (10:00):** Make AI Toolkit (wbudowany dostawca, bez klucza; Pollinations zwraca 402) pisze
+  2 propozycje dziennie, AI-redaktor ocenia je 1–10, a te z oceną ≥ 8 trafiają do kolejki jako `propozycja`.
+  Testy pokazały, że model pisze po polsku nierówno (nielogiczne zdania), dlatego nic nie jest publikowane automatycznie.
+- **Uzupełnianie zapasu:** zaplanowane zadanie Claude raz w tygodniu dopisuje 7 nowych postów,
+  generuje karty, wypycha je do repo i dodaje rekordy `zapas` do kolejki w Make.
+- Limit planu Free Make: maks. 2 aktywne scenariusze (Fabryka + Publikator).
+
+### Ręczne sterowanie kolejką (Make → Data stores → Beka Kolejka)
+- opublikuj propozycję AI: zmień `status` na `czeka` (wyjdzie o 18:00, jeśli ma < 3 dni);
+- wstrzymaj post z zapasu: zmień `status` na cokolwiek innego niż `zapas`.
