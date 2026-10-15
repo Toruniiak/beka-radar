@@ -1,0 +1,910 @@
+{
+ "zagadki": [
+  {
+   "tekst": "Ma zęby, a nie gryzie. Co to jest?",
+   "odpowiedz": "grzebień"
+  },
+  {
+   "tekst": "Im więcej z niej zabierasz, tym większa się robi. Co to jest?",
+   "odpowiedz": "dziura"
+  },
+  {
+   "tekst": "Należy do Ciebie, ale inni używają tego znacznie częściej niż Ty. Co to jest?",
+   "odpowiedz": "Twoje imię"
+  },
+  {
+   "tekst": "Ma szyjkę, ale nie ma głowy. Co to jest?",
+   "odpowiedz": "butelka"
+  },
+  {
+   "tekst": "Rano chodzi na czterech nogach, w południe na dwóch, a wieczorem na trzech. Kto to?",
+   "odpowiedz": "człowiek: niemowlę raczkuje, dorosły chodzi, a na starość podpiera się laską"
+  },
+  {
+   "tekst": "Ojciec Kasi ma pięć córek: Lalę, Lelę, Lilę i Lolę. Jak ma na imię piąta córka?",
+   "odpowiedz": "Kasia"
+  },
+  {
+   "tekst": "Ile miesięcy w roku ma 28 dni?",
+   "odpowiedz": "wszystkie dwanaście"
+  },
+  {
+   "tekst": "Co jest cięższe: kilogram pierza czy kilogram żelaza?",
+   "odpowiedz": "tyle samo, bo to wciąż kilogram"
+  },
+  {
+   "tekst": "Biegniesz w zawodach i wyprzedzasz osobę na drugim miejscu. Na którym miejscu jesteś teraz?",
+   "odpowiedz": "na drugim, a nie na pierwszym"
+  },
+  {
+   "tekst": "Co można złapać, ale nie da się tego rzucić?",
+   "odpowiedz": "katar"
+  },
+  {
+   "tekst": "Biegnie, a nóg nie ma. Szumi, a ust nie ma. Co to jest?",
+   "odpowiedz": "rzeka"
+  },
+  {
+   "tekst": "Im jej więcej, tym mniej widzisz. Co to jest?",
+   "odpowiedz": "ciemność"
+  },
+  {
+   "tekst": "Co zawsze idzie w górę, a nigdy w dół?",
+   "odpowiedz": "wiek"
+  },
+  {
+   "tekst": "Co robi się coraz bardziej mokre, im więcej suszy?",
+   "odpowiedz": "ręcznik"
+  },
+  {
+   "tekst": "Ma jedno oko, a nic nie widzi. Co to jest?",
+   "odpowiedz": "igła"
+  },
+  {
+   "tekst": "Ma głowę i ogon, ale nie ma ciała. Co to jest?",
+   "odpowiedz": "moneta (orzeł i reszka)"
+  },
+  {
+   "tekst": "Co możesz trzymać w lewej ręce, ale nigdy w prawej?",
+   "odpowiedz": "prawy łokieć"
+  },
+  {
+   "tekst": "Co się łamie, gdy tylko wypowiesz jego nazwę?",
+   "odpowiedz": "cisza"
+  },
+  {
+   "tekst": "Pan Zenek pojechał w piątek do miasta, został tam trzy dni i wrócił w piątek. Jak to możliwe?",
+   "odpowiedz": "jego koń miał na imię Piątek"
+  },
+  {
+   "tekst": "W pokoju są cztery kąty. W każdym kącie siedzi kot. Naprzeciwko każdego kota siedzą trzy koty. Ile kotów jest w pokoju?",
+   "odpowiedz": "cztery"
+  },
+  {
+   "tekst": "Lekarz dał Ci trzy tabletki i kazał brać jedną co pół godziny. Na ile czasu wystarczą?",
+   "odpowiedz": "na godzinę: pierwsza od razu, druga po 30 minutach, trzecia po 60"
+  },
+  {
+   "tekst": "Ile ziemi jest w dziurze o wymiarach metr na metr na metr?",
+   "odpowiedz": "ani grama, to przecież dziura"
+  },
+  {
+   "tekst": "Pociąg elektryczny jedzie na północ, a wiatr wieje na południe. W którą stronę leci dym z pociągu?",
+   "odpowiedz": "w żadną, bo pociąg elektryczny nie dymi"
+  },
+  {
+   "tekst": "Kogut zniósł jajko na samym szczycie dachu. Na którą stronę spadnie jajko?",
+   "odpowiedz": "na żadną, bo koguty nie znoszą jajek"
+  },
+  {
+   "tekst": "Ma rękawy, ale nie ma rąk. Co to jest?",
+   "odpowiedz": "koszula (albo sweter)"
+  },
+  {
+   "tekst": "Co zawsze jest przed Tobą, a nigdy nie możesz tego zobaczyć?",
+   "odpowiedz": "przyszłość"
+  },
+  {
+   "tekst": "Gdy jest młoda, jest wysoka. Gdy jest stara, jest niska. Co to jest?",
+   "odpowiedz": "świeczka"
+  },
+  {
+   "tekst": "Co możesz złamać, choć nawet tego nie dotkniesz?",
+   "odpowiedz": "obietnicę"
+  },
+  {
+   "tekst": "Ma miasta, ale nie ma domów. Ma lasy, ale nie ma drzew. Ma rzeki, ale nie ma w nich wody. Co to jest?",
+   "odpowiedz": "mapa"
+  },
+  {
+   "tekst": "Ma tarczę i wskazówki, ale nie jest ani rycerzem, ani przewodnikiem. Co to jest?",
+   "odpowiedz": "zegar"
+  },
+  {
+   "tekst": "Ma kapelusz, ale nie ma głowy. Ma nogę, ale nie nosi butów. Co to jest?",
+   "odpowiedz": "grzyb"
+  },
+  {
+   "tekst": "Co wpada do wody i wcale nie robi się mokre?",
+   "odpowiedz": "cień"
+  },
+  {
+   "tekst": "Co jest na samym końcu tęczy?",
+   "odpowiedz": "litera „y”"
+  },
+  {
+   "tekst": "Co znajduje się w samym środku Krakowa?",
+   "odpowiedz": "litera „k” (Kra-k-owa)"
+  },
+  {
+   "tekst": "Zaczyna się na K, kończy na A i ma w sobie tysiące liter. Co to jest?",
+   "odpowiedz": "książka"
+  },
+  {
+   "tekst": "Ile jajek można zjeść na pusty żołądek?",
+   "odpowiedz": "jedno, bo potem żołądek nie jest już pusty"
+  },
+  {
+   "tekst": "Jak daleko pies może wbiec do lasu?",
+   "odpowiedz": "do połowy, bo potem już z niego wybiega"
+  },
+  {
+   "tekst": "Kiedy 10 + 3 = 1?",
+   "odpowiedz": "na zegarze: godzina 10 plus 3 godziny to 1"
+  },
+  {
+   "tekst": "To syn mojego ojca, ale nie jest moim bratem. Kto to?",
+   "odpowiedz": "ja sam"
+  },
+  {
+   "tekst": "Nie ma rąk ani nóg, a drzwi otwiera i zamyka. Co to jest?",
+   "odpowiedz": "wiatr"
+  },
+  {
+   "tekst": "Jest lżejszy od piórka, a nawet najsilniejszy człowiek nie utrzyma go dłużej niż kilka minut. Co to jest?",
+   "odpowiedz": "oddech"
+  },
+  {
+   "tekst": "Ma 21 oczek, ale nic nie widzi. Co to jest?",
+   "odpowiedz": "kostka do gry (1+2+3+4+5+6 = 21)"
+  },
+  {
+   "tekst": "Biegnie dookoła ogrodu, a nie rusza się z miejsca. Co to jest?",
+   "odpowiedz": "płot"
+  },
+  {
+   "tekst": "Ile razy można odjąć 5 od 25?",
+   "odpowiedz": "tylko raz, potem odejmujesz już od 20"
+  },
+  {
+   "tekst": "Pojutrze będzie niedziela. Jaki dzień był przedwczoraj?",
+   "odpowiedz": "środa"
+  },
+  {
+   "tekst": "Jak upuścić surowe jajko na betonową podłogę, żeby jej nie stłuc?",
+   "odpowiedz": "jakkolwiek, betonowej podłogi jajkiem się nie stłucze"
+  },
+  {
+   "tekst": "Prowadzisz autobus. Na pierwszym przystanku wsiada 5 osób, na drugim wysiadają 2, a na trzecim wsiada 7. Ile lat ma kierowca?",
+   "odpowiedz": "tyle, ile Ty, bo to Ty prowadzisz autobus"
+  },
+  {
+   "tekst": "Zawsze odpowiada, choć nigdy nie pyta. Co to jest?",
+   "odpowiedz": "echo"
+  },
+  {
+   "tekst": "Ile liter jest w słowie „alfabet”?",
+   "odpowiedz": "siedem, bo tyle liter ma słowo „alfabet”"
+  },
+  {
+   "tekst": "Czarny, gdy go kupujesz. Czerwony, gdy go używasz. Szary, gdy go wyrzucasz. Co to jest?",
+   "odpowiedz": "węgiel"
+  },
+  {
+   "tekst": "Z której strony kubek ma ucho?",
+   "odpowiedz": "z zewnątrz"
+  },
+  {
+   "tekst": "Ile zwierząt każdego gatunku zabrał do arki Mojżesz?",
+   "odpowiedz": "żadnego, bo arkę budował Noe"
+  },
+  {
+   "tekst": "Które słowo w słowniku jest zawsze napisane „błędnie”?",
+   "odpowiedz": "słowo „błędnie”"
+  },
+  {
+   "tekst": "Pełna dziur, a mimo to trzyma wodę. Co to jest?",
+   "odpowiedz": "gąbka"
+  },
+  {
+   "tekst": "Na jakie pytanie nigdy nie odpowiesz „tak”?",
+   "odpowiedz": "„Śpisz?”"
+  },
+  {
+   "tekst": "Co jest między niebem a ziemią?",
+   "odpowiedz": "„a”"
+  },
+  {
+   "tekst": "Ma skrzydła i parapet, ale nigdy nie odlatuje. Co to jest?",
+   "odpowiedz": "okno"
+  },
+  {
+   "tekst": "Ma dziób i rufę, ale nie jest ani ptakiem, ani rybą. Co to jest?",
+   "odpowiedz": "statek"
+  },
+  {
+   "tekst": "Jaka liczba, gdy postawisz ją do góry nogami, zmniejsza się o trzy?",
+   "odpowiedz": "9, bo do góry nogami to 6"
+  },
+  {
+   "tekst": "Rolnik miał 17 owiec. Wszystkie oprócz 9 uciekły. Ile owiec mu zostało?",
+   "odpowiedz": "9"
+  },
+  {
+   "tekst": "Dwie matki i dwie córki kupiły trzy pary butów, każda po jednej. Jak to możliwe?",
+   "odpowiedz": "to babcia, mama i córka"
+  },
+  {
+   "tekst": "Jaka liczba dodana do samej siebie daje ten sam wynik, co pomnożona przez siebie?",
+   "odpowiedz": "2 (2 + 2 = 2 × 2), a jeśli ktoś napisał 0, też ma rację"
+  },
+  {
+   "tekst": "Ma uszy, ale nic nie słyszy. Co to jest?",
+   "odpowiedz": "garnek (albo kubek)"
+  },
+  {
+   "tekst": "Ma język, ale nic nie mówi. Co to jest?",
+   "odpowiedz": "but"
+  },
+  {
+   "tekst": "Ma piętkę, ale nie chodzi. Co to jest?",
+   "odpowiedz": "bochenek chleba"
+  },
+  {
+   "tekst": "Ma głowę, ale nie myśli. Na zimę się ją kisi. Co to jest?",
+   "odpowiedz": "kapusta"
+  },
+  {
+   "tekst": "Ma brodę, ale nie jest dziadkiem. Mówi „mee”. Kto to?",
+   "odpowiedz": "koza"
+  },
+  {
+   "tekst": "Ma ogon, ale nie jest zwierzęciem. Lata, ale nie ma skrzydeł. Co to jest?",
+   "odpowiedz": "latawiec"
+  },
+  {
+   "tekst": "Ma koronę, ale nie jest królem. Co to jest?",
+   "odpowiedz": "drzewo (a jeśli ktoś napisał „ząb”, też się liczy)"
+  },
+  {
+   "tekst": "W koszyku jest pięć jabłek. Pięcioro dzieci bierze po jednym, a w koszyku nadal leży jedno jabłko. Jak to możliwe?",
+   "odpowiedz": "ostatnie dziecko wzięło jabłko razem z koszykiem"
+  },
+  {
+   "tekst": "Jaś ma tyle samo braci, co sióstr. Jego siostra ma dwa razy więcej braci niż sióstr. Ile dzieci jest w tej rodzinie?",
+   "odpowiedz": "siedmioro: czterech chłopców i trzy dziewczynki"
+  },
+  {
+   "tekst": "Ile to jest połowa z dwóch plus dwa?",
+   "odpowiedz": "trzy"
+  },
+  {
+   "tekst": "Butelka z korkiem kosztuje 1,10 zł. Butelka jest o złotówkę droższa od korka. Ile kosztuje korek?",
+   "odpowiedz": "5 groszy, a nie 10"
+  },
+  {
+   "tekst": "Pięć maszyn robi pięć śrubek w pięć minut. Ile minut zajmie stu maszynom zrobienie stu śrubek?",
+   "odpowiedz": "pięć minut"
+  },
+  {
+   "tekst": "Lilie na stawie co dzień zajmują dwa razy więcej miejsca. Po 48 dniach pokrywają cały staw. Po ilu dniach pokrywały połowę?",
+   "odpowiedz": "po 47 dniach"
+  },
+  {
+   "tekst": "Wymień trzy kolejne dni, nie używając nazw dni tygodnia.",
+   "odpowiedz": "wczoraj, dziś i jutro"
+  },
+  {
+   "tekst": "Kiedy czwartek jest przed środą?",
+   "odpowiedz": "w słowniku, bo alfabetycznie „c” jest przed „ś”"
+  },
+  {
+   "tekst": "Zawsze leci, choć nie ma skrzydeł. Co to jest?",
+   "odpowiedz": "czas"
+  },
+  {
+   "tekst": "Jeśli go zdradzisz, przestaje istnieć. Co to jest?",
+   "odpowiedz": "sekret"
+  },
+  {
+   "tekst": "Ma tysiące igieł, ale niczego nie szyje. Co to jest?",
+   "odpowiedz": "jeż (albo choinka)"
+  },
+  {
+   "tekst": "Ile boków ma koło?",
+   "odpowiedz": "dwa: wewnętrzny i zewnętrzny"
+  },
+  {
+   "tekst": "Pada deszcz, a pan Józek wraca do domu bez parasola i bez czapki. Ani jeden włos nie zmókł mu na głowie. Jak?",
+   "odpowiedz": "pan Józek jest łysy"
+  },
+  {
+   "tekst": "Pan Adam przepchnął swój samochód pod hotel i od razu zbankrutował. Co się stało?",
+   "odpowiedz": "grał w Monopoly"
+  },
+  {
+   "tekst": "Wchodzisz do ciemnego pokoju z jedną zapałką. Jest tam świeczka, lampa naftowa i kominek. Co zapalasz najpierw?",
+   "odpowiedz": "zapałkę"
+  },
+  {
+   "tekst": "Ma 88 klawiszy, ale nie otworzy żadnych drzwi. Co to jest?",
+   "odpowiedz": "fortepian"
+  },
+  {
+   "tekst": "Policz w pamięci: 1000 + 40 + 1000 + 30 + 1000 + 20 + 1000 + 10. Ile wychodzi?",
+   "odpowiedz": "4100, a nie 5000"
+  },
+  {
+   "tekst": "Mam trzy jabłka. Zabierasz mi dwa. Ile jabłek masz Ty?",
+   "odpowiedz": "dwa"
+  },
+  {
+   "tekst": "W którym miesiącu ludzie śpią najkrócej?",
+   "odpowiedz": "w lutym, bo jest najkrótszy"
+  },
+  {
+   "tekst": "Rośnie korzeniem do góry. Co to jest?",
+   "odpowiedz": "sopel lodu"
+  },
+  {
+   "tekst": "Zawsze mokry, a mieszka w ustach. Co to jest?",
+   "odpowiedz": "język"
+  },
+  {
+   "tekst": "Siedzi w rogu koperty, a objeżdża cały świat. Co to jest?",
+   "odpowiedz": "znaczek pocztowy"
+  },
+  {
+   "tekst": "Co można włożyć do pustego wiadra, żeby stało się lżejsze?",
+   "odpowiedz": "dziurę"
+  },
+  {
+   "tekst": "Trzy jabłka i dwie gruszki kosztują 13 zł. Jedno jabłko i dwie gruszki kosztują 7 zł. Ile kosztuje jedno jabłko?",
+   "odpowiedz": "3 zł"
+  },
+  {
+   "tekst": "W którym roku Nowy Rok wypada przed Bożym Narodzeniem?",
+   "odpowiedz": "w każdym: 1 stycznia jest przed 25 grudnia"
+  },
+  {
+   "tekst": "Pan Edek mieszka w parterowym domu, w którym wszystko jest różowe. Jakiego koloru są w nim schody?",
+   "odpowiedz": "żadnego, bo w parterowym domu nie ma schodów"
+  },
+  {
+   "tekst": "Pan Kazik mieszka na dziesiątym piętrze. Rano zjeżdża windą na parter, ale wracając, jedzie windą tylko na siódme, a resztę pokonuje pieszo. Dlaczego?",
+   "odpowiedz": "jest niskiego wzrostu i nie sięga wyżej niż do przycisku siódmego piętra"
+  },
+  {
+   "tekst": "Co ma cztery nogi, ale nigdy nie chodzi?",
+   "odpowiedz": "stół (albo krzesło)"
+  },
+  {
+   "tekst": "Co ma oczka, ale nic nie widzi, a na obiad bywa z koperkiem?",
+   "odpowiedz": "ziemniak"
+  },
+  {
+   "tekst": "Zimą spada z nieba, a dzieci lepią z niego bałwana. Co to jest?",
+   "odpowiedz": "śnieg"
+  },
+  {
+   "tekst": "Rano wstaje na wschodzie, wieczorem zachodzi na zachodzie. Co to jest?",
+   "odpowiedz": "słońce"
+  },
+  {
+   "tekst": "Ma klawisze, ekran i myszkę, ale kot jej nie złapie. Co to jest?",
+   "odpowiedz": "komputer"
+  }
+ ],
+ "quizy": [
+  {
+   "pytanie": "Która rzeka jest najdłuższa w Polsce?",
+   "opcje": [
+    "Odra",
+    "Wisła",
+    "Warta",
+    "Bug"
+   ],
+   "poprawna": "B"
+  },
+  {
+   "pytanie": "Jak nazywa się najwyższy szczyt w Polsce?",
+   "opcje": [
+    "Śnieżka",
+    "Kasprowy Wierch",
+    "Giewont",
+    "Rysy"
+   ],
+   "poprawna": "D"
+  },
+  {
+   "pytanie": "Ile województw ma Polska?",
+   "opcje": [
+    "16",
+    "12",
+    "14",
+    "18"
+   ],
+   "poprawna": "A"
+  },
+  {
+   "pytanie": "W którym mieście stoi Spodek?",
+   "opcje": [
+    "Kraków",
+    "Łódź",
+    "Katowice",
+    "Poznań"
+   ],
+   "poprawna": "C"
+  },
+  {
+   "pytanie": "Ile nóg ma pająk?",
+   "opcje": [
+    "6",
+    "8",
+    "10",
+    "12"
+   ],
+   "poprawna": "B"
+  },
+  {
+   "pytanie": "Z jakiego mleka robi się tradycyjny oscypek?",
+   "opcje": [
+    "krowiego",
+    "koziego",
+    "owczego",
+    "bawolego"
+   ],
+   "poprawna": "C"
+  },
+  {
+   "pytanie": "Które z tych miast leży nad morzem?",
+   "opcje": [
+    "Gdynia",
+    "Olsztyn",
+    "Bydgoszcz",
+    "Toruń"
+   ],
+   "poprawna": "A"
+  },
+  {
+   "pytanie": "Kto napisał „Pana Tadeusza”?",
+   "opcje": [
+    "Juliusz Słowacki",
+    "Henryk Sienkiewicz",
+    "Bolesław Prus",
+    "Adam Mickiewicz"
+   ],
+   "poprawna": "D"
+  },
+  {
+   "pytanie": "Ile minut ma doba?",
+   "opcje": [
+    "1240",
+    "1440",
+    "1640",
+    "2400"
+   ],
+   "poprawna": "B"
+  },
+  {
+   "pytanie": "Jaki kolor powstaje po zmieszaniu niebieskiego z żółtym?",
+   "opcje": [
+    "fioletowy",
+    "pomarańczowy",
+    "zielony",
+    "brązowy"
+   ],
+   "poprawna": "C"
+  },
+  {
+   "pytanie": "Które jezioro ma największą powierzchnię w Polsce?",
+   "opcje": [
+    "Śniardwy",
+    "Mamry",
+    "Hańcza",
+    "Gopło"
+   ],
+   "poprawna": "A"
+  },
+  {
+   "pytanie": "Które jezioro jest najgłębsze w Polsce?",
+   "opcje": [
+    "Śniardwy",
+    "Hańcza",
+    "Morskie Oko",
+    "Wigry"
+   ],
+   "poprawna": "B"
+  },
+  {
+   "pytanie": "Gdzie urodził się Fryderyk Chopin?",
+   "opcje": [
+    "w Warszawie",
+    "w Krakowie",
+    "w Paryżu",
+    "w Żelazowej Woli"
+   ],
+   "poprawna": "D"
+  },
+  {
+   "pytanie": "Ile serc ma ośmiornica?",
+   "opcje": [
+    "jedno",
+    "dwa",
+    "trzy",
+    "cztery"
+   ],
+   "poprawna": "C"
+  },
+  {
+   "pytanie": "Która planeta jest najbliżej Słońca?",
+   "opcje": [
+    "Merkury",
+    "Wenus",
+    "Mars",
+    "Ziemia"
+   ],
+   "poprawna": "A"
+  },
+  {
+   "pytanie": "Ile kości ma dorosły człowiek?",
+   "opcje": [
+    "106",
+    "206",
+    "306",
+    "406"
+   ],
+   "poprawna": "B"
+  },
+  {
+   "pytanie": "Które miasto było stolicą Polski przed Warszawą?",
+   "opcje": [
+    "Gniezno",
+    "Poznań",
+    "Kraków",
+    "Płock"
+   ],
+   "poprawna": "C"
+  },
+  {
+   "pytanie": "Co jest w herbie Warszawy?",
+   "opcje": [
+    "orzeł",
+    "niedźwiedź",
+    "smok",
+    "syrenka"
+   ],
+   "poprawna": "D"
+  },
+  {
+   "pytanie": "Ile pasów ma flaga Polski?",
+   "opcje": [
+    "dwa",
+    "trzy",
+    "cztery",
+    "jeden"
+   ],
+   "poprawna": "A"
+  },
+  {
+   "pytanie": "Który z tych ptaków nie potrafi latać?",
+   "opcje": [
+    "bocian",
+    "struś",
+    "jaskółka",
+    "wróbel"
+   ],
+   "poprawna": "B"
+  },
+  {
+   "pytanie": "Gdzie zimują polskie bociany?",
+   "opcje": [
+    "w Hiszpanii",
+    "w Grecji",
+    "w Afryce",
+    "w Azji"
+   ],
+   "poprawna": "C"
+  },
+  {
+   "pytanie": "Ile dni ma rok przestępny?",
+   "opcje": [
+    "364",
+    "365",
+    "367",
+    "366"
+   ],
+   "poprawna": "D"
+  },
+  {
+   "pytanie": "Które zwierzę lądowe jest najszybsze?",
+   "opcje": [
+    "gepard",
+    "lew",
+    "antylopa",
+    "koń"
+   ],
+   "poprawna": "A"
+  },
+  {
+   "pytanie": "Który owoc ma pestki na zewnątrz?",
+   "opcje": [
+    "malina",
+    "truskawka",
+    "porzeczka",
+    "jagoda"
+   ],
+   "poprawna": "B"
+  },
+  {
+   "pytanie": "Ilu zawodników jednej drużyny gra na boisku w piłce nożnej?",
+   "opcje": [
+    "9",
+    "10",
+    "11",
+    "12"
+   ],
+   "poprawna": "C"
+  },
+  {
+   "pytanie": "Z ilu kart składa się standardowa talia (bez jokerów)?",
+   "opcje": [
+    "32",
+    "48",
+    "54",
+    "52"
+   ],
+   "poprawna": "D"
+  },
+  {
+   "pytanie": "Z czego słynie Wieliczka?",
+   "opcje": [
+    "z kopalni soli",
+    "z zamku krzyżackiego",
+    "z uzdrowiska",
+    "z najdłuższego molo"
+   ],
+   "poprawna": "A"
+  },
+  {
+   "pytanie": "Kto był pierwszym koronowanym królem Polski?",
+   "opcje": [
+    "Mieszko I",
+    "Bolesław Chrobry",
+    "Kazimierz Wielki",
+    "Władysław Łokietek"
+   ],
+   "poprawna": "B"
+  },
+  {
+   "pytanie": "W którym roku Polska weszła do Unii Europejskiej?",
+   "opcje": [
+    "1999",
+    "2002",
+    "2004",
+    "2007"
+   ],
+   "poprawna": "C"
+  },
+  {
+   "pytanie": "Ile to jest 15% z 200?",
+   "opcje": [
+    "15",
+    "20",
+    "25",
+    "30"
+   ],
+   "poprawna": "D"
+  },
+  {
+   "pytanie": "Co mierzy barometr?",
+   "opcje": [
+    "ciśnienie powietrza",
+    "wilgotność",
+    "temperaturę",
+    "prędkość wiatru"
+   ],
+   "poprawna": "A"
+  },
+  {
+   "pytanie": "Ile nóg ma owad?",
+   "opcje": [
+    "4",
+    "6",
+    "8",
+    "10"
+   ],
+   "poprawna": "B"
+  },
+  {
+   "pytanie": "Jaki pierwiastek kryje się pod symbolem O?",
+   "opcje": [
+    "złoto",
+    "ołów",
+    "tlen",
+    "osm"
+   ],
+   "poprawna": "C"
+  },
+  {
+   "pytanie": "Który ocean jest największy?",
+   "opcje": [
+    "Atlantycki",
+    "Indyjski",
+    "Arktyczny",
+    "Spokojny"
+   ],
+   "poprawna": "D"
+  },
+  {
+   "pytanie": "Który kontynent jest najmniejszy?",
+   "opcje": [
+    "Australia",
+    "Europa",
+    "Antarktyda",
+    "Ameryka Południowa"
+   ],
+   "poprawna": "A"
+  },
+  {
+   "pytanie": "Ile godzin ma tydzień?",
+   "opcje": [
+    "148",
+    "168",
+    "178",
+    "186"
+   ],
+   "poprawna": "B"
+  },
+  {
+   "pytanie": "Które z tych zwierząt jest ssakiem?",
+   "opcje": [
+    "rekin",
+    "pingwin",
+    "delfin",
+    "krokodyl"
+   ],
+   "poprawna": "C"
+  },
+  {
+   "pytanie": "Z czego robi się kopytka?",
+   "opcje": [
+    "z kaszy manny",
+    "z ryżu",
+    "z sera",
+    "z ziemniaków"
+   ],
+   "poprawna": "D"
+  },
+  {
+   "pytanie": "W którym mieście stoi Pałac Kultury i Nauki?",
+   "opcje": [
+    "w Warszawie",
+    "w Łodzi",
+    "w Katowicach",
+    "we Wrocławiu"
+   ],
+   "poprawna": "A"
+  },
+  {
+   "pytanie": "Który miesiąc ma najmniej dni?",
+   "opcje": [
+    "kwiecień",
+    "luty",
+    "listopad",
+    "czerwiec"
+   ],
+   "poprawna": "B"
+  },
+  {
+   "pytanie": "Jak nazywa się pierwsza litera alfabetu greckiego?",
+   "opcje": [
+    "beta",
+    "omega",
+    "alfa",
+    "delta"
+   ],
+   "poprawna": "C"
+  },
+  {
+   "pytanie": "Ile zer ma milion?",
+   "opcje": [
+    "5",
+    "7",
+    "9",
+    "6"
+   ],
+   "poprawna": "D"
+  },
+  {
+   "pytanie": "Na jakim kontynencie leży Egipt?",
+   "opcje": [
+    "w Afryce",
+    "w Azji",
+    "w Europie",
+    "w Ameryce"
+   ],
+   "poprawna": "A"
+  },
+  {
+   "pytanie": "Ile strun ma klasyczna gitara?",
+   "opcje": [
+    "4",
+    "6",
+    "7",
+    "12"
+   ],
+   "poprawna": "B"
+  },
+  {
+   "pytanie": "Którą planetę nazywa się Czerwoną Planetą?",
+   "opcje": [
+    "Jowisz",
+    "Wenus",
+    "Mars",
+    "Saturn"
+   ],
+   "poprawna": "C"
+  },
+  {
+   "pytanie": "Jak nazywa się stolica Kanady?",
+   "opcje": [
+    "Toronto",
+    "Montreal",
+    "Vancouver",
+    "Ottawa"
+   ],
+   "poprawna": "D"
+  },
+  {
+   "pytanie": "Kto namalował „Mona Lisę”?",
+   "opcje": [
+    "Leonardo da Vinci",
+    "Michał Anioł",
+    "Rafael",
+    "Rembrandt"
+   ],
+   "poprawna": "A"
+  },
+  {
+   "pytanie": "Na jakim zakwasie robi się tradycyjny żurek?",
+   "opcje": [
+    "pszennym",
+    "żytnim",
+    "ryżowym",
+    "kukurydzianym"
+   ],
+   "poprawna": "B"
+  },
+  {
+   "pytanie": "Przez które miasto płynie Odra?",
+   "opcje": [
+    "Kraków",
+    "Warszawa",
+    "Wrocław",
+    "Gdańsk"
+   ],
+   "poprawna": "C"
+  },
+  {
+   "pytanie": "Jaka kość jest najdłuższa w ciele człowieka?",
+   "opcje": [
+    "kość ramienna",
+    "piszczel",
+    "obojczyk",
+    "kość udowa"
+   ],
+   "poprawna": "D"
+  }
+ ]
+}

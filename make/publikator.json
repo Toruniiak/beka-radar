@@ -1,465 +1,595 @@
 {
-  "_opis": "Beka Publikator — stan w Make (AKTYWNY): świeży AI → zdjęcie/tekst; brak → zapas z kartą",
-  "scenarioId": 6510968,
-  "scheduling": {
-    "time": "18:00",
-    "type": "daily"
+ "_opis": "Beka Publikator wieczór — stan w Make (AKTYWNY, 19:00): zatwierdzony AI > plan/RRRR-MM-DD-wieczor.txt + karta > zapas",
+ "scenarioId": 6510968,
+ "scheduling": {
+  "type": "daily",
+  "time": "19:00"
+ },
+ "blueprint": {
+  "name": "Beka Publikator — plan → Facebook (19:00 wieczór)",
+  "metadata": {
+   "version": 1,
+   "scenario": {
+    "maxErrors": 3,
+    "roundtrips": 1,
+    "sequential": true,
+    "autoCommit": true
+   }
   },
-  "blueprint": {
-    "flow": [
+  "flow": [
+   {
+    "id": 30,
+    "module": "datastore:SearchRecord",
+    "version": 1,
+    "parameters": {
+     "limit": 1,
+     "datastore": 145060,
+     "continueWhenNoRes": true
+    },
+    "mapper": {
+     "filter": [
+      [
+       {
+        "a": "temat",
+        "b": "PLAN {{formatDate(now; \"YYYY-MM-DD\")}}-wieczor",
+        "o": "text:equal"
+       }
+      ]
+     ]
+    }
+   },
+   {
+    "id": 1,
+    "mapper": {
+     "sort": [
       {
-        "id": 1,
+       "key": "publikuj_o",
+       "order": -1
+      }
+     ],
+     "filter": [
+      [
+       {
+        "a": "status",
+        "b": "czeka",
+        "o": "text:equal"
+       },
+       {
+        "a": "publikuj_o",
+        "b": "{{addDays(now; -3)}}",
+        "o": "date:greater"
+       }
+      ]
+     ]
+    },
+    "module": "datastore:SearchRecord",
+    "version": 1,
+    "parameters": {
+     "limit": 1,
+     "datastore": 145060,
+     "continueWhenNoRes": true
+    },
+    "filter": {
+     "name": "Jeszcze nie publikowano dziś (wieczór)",
+     "conditions": [
+      [
+       {
+        "a": "{{ifempty(30.key; \"BRAK\")}}",
+        "b": "BRAK",
+        "o": "text:equal"
+       }
+      ]
+     ]
+    }
+   },
+   {
+    "id": 10,
+    "mapper": null,
+    "module": "builtin:BasicRouter",
+    "version": 1,
+    "routes": [
+     {
+      "flow": [
+       {
+        "id": 4,
         "mapper": {
-          "sort": [
-            {
-              "key": "publikuj_o",
-              "order": -1
-            }
-          ],
-          "filter": [
-            [
-              {
-                "a": "status",
-                "b": "czeka",
-                "o": "text:equal"
-              },
-              {
-                "a": "publikuj_o",
-                "b": "{{addDays(now; -3)}}",
-                "o": "date:greater"
-              }
-            ]
-          ]
+         "url": "https://raw.githubusercontent.com/Toruniiak/beka-radar/6e18779826be40054436e943e58f761617b1f8e6/karty/dzien-{{formatDate(now; \"d\")}}.png",
+         "method": "get",
+         "parseResponse": false,
+         "stopOnHttpError": false,
+         "timeout": 180
         },
-        "module": "datastore:SearchRecord",
-        "version": 1,
-        "metadata": {
-          "designer": {
-            "x": 0,
-            "y": 0
-          }
-        },
+        "module": "http:MakeRequest",
+        "version": 4,
         "parameters": {
-          "limit": 1,
-          "datastore": 145060,
-          "continueWhenNoRes": true
+         "authenticationType": "noAuth"
+        },
+        "filter": {
+         "name": "Jest świeży post AI",
+         "conditions": [
+          [
+           {
+            "a": "{{ifempty(1.key; \"BRAK\")}}",
+            "b": "BRAK",
+            "o": "text:notequal"
+           }
+          ]
+         ]
         }
-      },
-      {
-        "id": 10,
+       },
+       {
+        "id": 40,
+        "module": "datastore:AddRecord",
+        "version": 1,
+        "parameters": {
+         "datastore": 145060
+        },
+        "mapper": {
+         "key": "plan-{{formatDate(now; \"YYYY-MM-DD\")}}-wieczor",
+         "overwrite": true,
+         "data": {
+          "temat": "PLAN {{formatDate(now; \"YYYY-MM-DD\")}}-wieczor",
+          "tekst_posta": "AI: {{1.key}}",
+          "url_grafiki": "-",
+          "publikuj_o": "{{now}}",
+          "status": "plan",
+          "zrodlo_inspiracji": "Publikator wieczor"
+         }
+        }
+       },
+       {
+        "id": 11,
         "mapper": null,
         "module": "builtin:BasicRouter",
         "version": 1,
-        "metadata": {
-          "designer": {
-            "x": 250,
-            "y": 0
-          }
-        },
         "routes": [
-          {
-            "flow": [
+         {
+          "flow": [
+           {
+            "id": 2,
+            "filter": {
+             "name": "Grafika OK",
+             "conditions": [
+              [
+               {
+                "a": "{{4.statusCode}}",
+                "b": "200",
+                "o": "number:equal"
+               }
+              ]
+             ]
+            },
+            "mapper": {
+             "photos": [
               {
-                "id": 4,
-                "mapper": {
-                  "url": "https://raw.githubusercontent.com/Toruniiak/beka-radar/6e18779826be40054436e943e58f761617b1f8e6/karty/dzien-{{formatDate(now; \"d\")}}.png",
-                  "method": "get",
-                  "headers": [],
-                  "queryParameters": [],
-                  "parseResponse": false,
-                  "stopOnHttpError": false,
-                  "timeout": 180,
-                  "allowRedirects": true,
-                  "shareCookies": false,
-                  "requestCompressedContent": true
-                },
-                "module": "http:MakeRequest",
-                "version": 4,
-                "metadata": {
-                  "designer": {
-                    "x": 500,
-                    "y": -200
-                  }
-                },
-                "parameters": {
-                  "authenticationType": "noAuth"
-                },
-                "filter": {
-                  "name": "Jest świeży post AI",
-                  "conditions": [
-                    [
-                      {
-                        "a": "{{ifempty(1.key; \"BRAK\")}}",
-                        "b": "BRAK",
-                        "o": "text:notequal"
-                      }
-                    ]
-                  ]
-                }
-              },
-              {
-                "id": 11,
-                "mapper": null,
-                "module": "builtin:BasicRouter",
-                "version": 1,
-                "metadata": {
-                  "designer": {
-                    "x": 750,
-                    "y": -200
-                  }
-                },
-                "routes": [
-                  {
-                    "flow": [
-                      {
-                        "id": 2,
-                        "filter": {
-                          "name": "Grafika OK",
-                          "conditions": [
-                            [
-                              {
-                                "a": "{{4.statusCode}}",
-                                "b": "200",
-                                "o": "number:equal"
-                              }
-                            ]
-                          ]
-                        },
-                        "mapper": {
-                          "photos": [
-                            {
-                              "type": "data",
-                              "fileName": "bekawpigulce.jpg",
-                              "data": "{{4.data}}"
-                            }
-                          ],
-                          "message": "{{1.data.tekst_posta}}",
-                          "page_id": "1282869891751448"
-                        },
-                        "module": "facebook-pages:CreatePostWithPhotos",
-                        "version": 6,
-                        "metadata": {
-                          "designer": {
-                            "x": 1000,
-                            "y": -300
-                          }
-                        },
-                        "parameters": {
-                          "__IMTCONN__": 8898172
-                        }
-                      },
-                      {
-                        "id": 3,
-                        "mapper": {
-                          "key": "{{1.key}}",
-                          "data": {
-                            "status": "opublikowane"
-                          },
-                          "upsert": false,
-                          "overwriteArrays": false
-                        },
-                        "module": "datastore:UpdateRecord",
-                        "version": 1,
-                        "metadata": {
-                          "designer": {
-                            "x": 1250,
-                            "y": -300
-                          }
-                        },
-                        "parameters": {
-                          "datastore": 145060
-                        }
-                      }
-                    ]
-                  },
-                  {
-                    "flow": [
-                      {
-                        "id": 12,
-                        "filter": {
-                          "name": "Brak grafiki → post tekstowy",
-                          "conditions": [
-                            [
-                              {
-                                "a": "{{4.statusCode}}",
-                                "b": "200",
-                                "o": "number:notequal"
-                              }
-                            ]
-                          ]
-                        },
-                        "mapper": {
-                          "page_id": "1282869891751448",
-                          "message": "{{1.data.tekst_posta}}"
-                        },
-                        "module": "facebook-pages:CreatePost",
-                        "version": 6,
-                        "metadata": {
-                          "designer": {
-                            "x": 1000,
-                            "y": -100
-                          }
-                        },
-                        "parameters": {
-                          "__IMTCONN__": 8898172
-                        }
-                      },
-                      {
-                        "id": 13,
-                        "mapper": {
-                          "key": "{{1.key}}",
-                          "data": {
-                            "status": "opublikowane"
-                          },
-                          "upsert": false,
-                          "overwriteArrays": false
-                        },
-                        "module": "datastore:UpdateRecord",
-                        "version": 1,
-                        "metadata": {
-                          "designer": {
-                            "x": 1250,
-                            "y": -100
-                          }
-                        },
-                        "parameters": {
-                          "datastore": 145060
-                        }
-                      }
-                    ]
-                  }
-                ]
+               "type": "data",
+               "fileName": "bekawpigulce.jpg",
+               "data": "{{4.data}}"
               }
-            ]
-          },
-          {
-            "flow": [
-              {
-                "id": 20,
-                "mapper": {
-                  "sort": [
-                    {
-                      "key": "publikuj_o",
-                      "order": 1
-                    }
-                  ],
-                  "filter": [
-                    [
-                      {
-                        "a": "status",
-                        "b": "zapas",
-                        "o": "text:equal"
-                      }
-                    ]
-                  ]
-                },
-                "module": "datastore:SearchRecord",
-                "version": 1,
-                "metadata": {
-                  "designer": {
-                    "x": 500,
-                    "y": 200
-                  }
-                },
-                "parameters": {
-                  "limit": 1,
-                  "datastore": 145060
-                },
-                "filter": {
-                  "name": "Brak świeżego → zapas",
-                  "conditions": [
-                    [
-                      {
-                        "a": "{{ifempty(1.key; \"BRAK\")}}",
-                        "b": "BRAK",
-                        "o": "text:equal"
-                      }
-                    ]
-                  ]
-                }
-              },
-              {
-                "id": 21,
-                "mapper": {
-                  "url": "{{20.data.url_grafiki}}",
-                  "method": "get",
-                  "headers": [],
-                  "queryParameters": [],
-                  "parseResponse": false,
-                  "stopOnHttpError": false,
-                  "timeout": 180,
-                  "allowRedirects": true,
-                  "shareCookies": false,
-                  "requestCompressedContent": true
-                },
-                "module": "http:MakeRequest",
-                "version": 4,
-                "metadata": {
-                  "designer": {
-                    "x": 750,
-                    "y": 200
-                  }
-                },
-                "parameters": {
-                  "authenticationType": "noAuth"
-                }
-              },
-              {
-                "id": 22,
-                "mapper": null,
-                "module": "builtin:BasicRouter",
-                "version": 1,
-                "metadata": {
-                  "designer": {
-                    "x": 1000,
-                    "y": 200
-                  }
-                },
-                "routes": [
-                  {
-                    "flow": [
-                      {
-                        "id": 23,
-                        "filter": {
-                          "name": "Grafika OK",
-                          "conditions": [
-                            [
-                              {
-                                "a": "{{21.statusCode}}",
-                                "b": "200",
-                                "o": "number:equal"
-                              }
-                            ]
-                          ]
-                        },
-                        "mapper": {
-                          "photos": [
-                            {
-                              "type": "data",
-                              "fileName": "bekawpigulce.jpg",
-                              "data": "{{21.data}}"
-                            }
-                          ],
-                          "message": "{{20.data.tekst_posta}}",
-                          "page_id": "1282869891751448"
-                        },
-                        "module": "facebook-pages:CreatePostWithPhotos",
-                        "version": 6,
-                        "metadata": {
-                          "designer": {
-                            "x": 1250,
-                            "y": 100
-                          }
-                        },
-                        "parameters": {
-                          "__IMTCONN__": 8898172
-                        }
-                      },
-                      {
-                        "id": 24,
-                        "mapper": {
-                          "key": "{{20.key}}",
-                          "data": {
-                            "status": "opublikowane"
-                          },
-                          "upsert": false,
-                          "overwriteArrays": false
-                        },
-                        "module": "datastore:UpdateRecord",
-                        "version": 1,
-                        "metadata": {
-                          "designer": {
-                            "x": 1500,
-                            "y": 100
-                          }
-                        },
-                        "parameters": {
-                          "datastore": 145060
-                        }
-                      }
-                    ]
-                  },
-                  {
-                    "flow": [
-                      {
-                        "id": 25,
-                        "filter": {
-                          "name": "Brak grafiki → post tekstowy",
-                          "conditions": [
-                            [
-                              {
-                                "a": "{{21.statusCode}}",
-                                "b": "200",
-                                "o": "number:notequal"
-                              }
-                            ]
-                          ]
-                        },
-                        "mapper": {
-                          "page_id": "1282869891751448",
-                          "message": "{{20.data.tekst_posta}}"
-                        },
-                        "module": "facebook-pages:CreatePost",
-                        "version": 6,
-                        "metadata": {
-                          "designer": {
-                            "x": 1250,
-                            "y": 300
-                          }
-                        },
-                        "parameters": {
-                          "__IMTCONN__": 8898172
-                        }
-                      },
-                      {
-                        "id": 26,
-                        "mapper": {
-                          "key": "{{20.key}}",
-                          "data": {
-                            "status": "opublikowane"
-                          },
-                          "upsert": false,
-                          "overwriteArrays": false
-                        },
-                        "module": "datastore:UpdateRecord",
-                        "version": 1,
-                        "metadata": {
-                          "designer": {
-                            "x": 1500,
-                            "y": 300
-                          }
-                        },
-                        "parameters": {
-                          "datastore": 145060
-                        }
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
+             ],
+             "message": "{{1.data.tekst_posta}}",
+             "page_id": "1282869891751448"
+            },
+            "module": "facebook-pages:CreatePostWithPhotos",
+            "version": 6,
+            "parameters": {
+             "__IMTCONN__": 8898172
+            }
+           },
+           {
+            "id": 3,
+            "mapper": {
+             "key": "{{1.key}}",
+             "data": {
+              "status": "opublikowane"
+             },
+             "upsert": false,
+             "overwriteArrays": false
+            },
+            "module": "datastore:UpdateRecord",
+            "version": 1,
+            "parameters": {
+             "datastore": 145060
+            }
+           }
+          ]
+         },
+         {
+          "flow": [
+           {
+            "id": 12,
+            "filter": {
+             "name": "Brak grafiki → post tekstowy",
+             "conditions": [
+              [
+               {
+                "a": "{{4.statusCode}}",
+                "b": "200",
+                "o": "number:notequal"
+               }
+              ]
+             ]
+            },
+            "mapper": {
+             "page_id": "1282869891751448",
+             "message": "{{1.data.tekst_posta}}"
+            },
+            "module": "facebook-pages:CreatePost",
+            "version": 6,
+            "parameters": {
+             "__IMTCONN__": 8898172
+            }
+           },
+           {
+            "id": 13,
+            "mapper": {
+             "key": "{{1.key}}",
+             "data": {
+              "status": "opublikowane"
+             },
+             "upsert": false,
+             "overwriteArrays": false
+            },
+            "module": "datastore:UpdateRecord",
+            "version": 1,
+            "parameters": {
+             "datastore": 145060
+            }
+           }
+          ]
+         }
         ]
-      }
-    ],
-    "name": "Beka Publikator — kolejka → Facebook (18:00)",
-    "metadata": {
-      "instant": false,
-      "version": 1,
-      "designer": {
-        "orphans": []
-      },
-      "scenario": {
-        "dlq": false,
-        "dataloss": false,
-        "maxErrors": 3,
-        "autoCommit": true,
-        "roundtrips": 1,
-        "sequential": true,
-        "confidential": false,
-        "freshVariables": false,
-        "autoCommitTriggerLast": true
-      }
-    }
-  }
+       }
+      ]
+     },
+     {
+      "flow": [
+       {
+        "id": 50,
+        "module": "http:MakeRequest",
+        "version": 4,
+        "parameters": {
+         "authenticationType": "noAuth"
+        },
+        "mapper": {
+         "url": "https://raw.githubusercontent.com/Toruniiak/beka-radar/ccr-8750d6fc-oi48wv/plan/{{formatDate(now; \"YYYY-MM-DD\")}}-wieczor.txt",
+         "method": "get",
+         "parseResponse": true,
+         "stopOnHttpError": false,
+         "timeout": 180
+        },
+        "filter": {
+         "name": "Brak zatwierdzonego posta AI → plan",
+         "conditions": [
+          [
+           {
+            "a": "{{ifempty(1.key; \"BRAK\")}}",
+            "b": "BRAK",
+            "o": "text:equal"
+           }
+          ]
+         ]
+        }
+       },
+       {
+        "id": 51,
+        "module": "builtin:BasicRouter",
+        "version": 1,
+        "mapper": null,
+        "routes": [
+         {
+          "flow": [
+           {
+            "id": 52,
+            "module": "http:MakeRequest",
+            "version": 4,
+            "parameters": {
+             "authenticationType": "noAuth"
+            },
+            "mapper": {
+             "url": "https://raw.githubusercontent.com/Toruniiak/beka-radar/ccr-8750d6fc-oi48wv/karty/plan/{{formatDate(now; \"YYYY-MM-DD\")}}-wieczor.png",
+             "method": "get",
+             "parseResponse": false,
+             "stopOnHttpError": false,
+             "timeout": 180
+            },
+            "filter": {
+             "name": "Plik planu OK i nie POMIN",
+             "conditions": [
+              [
+               {
+                "a": "{{50.statusCode}}",
+                "b": "200",
+                "o": "number:equal"
+               },
+               {
+                "a": "{{trim(50.data)}}",
+                "b": "POMIN",
+                "o": "text:notequal"
+               }
+              ]
+             ]
+            }
+           },
+           {
+            "id": 53,
+            "module": "datastore:AddRecord",
+            "version": 1,
+            "parameters": {
+             "datastore": 145060
+            },
+            "mapper": {
+             "key": "plan-{{formatDate(now; \"YYYY-MM-DD\")}}-wieczor",
+             "overwrite": true,
+             "data": {
+              "temat": "PLAN {{formatDate(now; \"YYYY-MM-DD\")}}-wieczor",
+              "tekst_posta": "{{substring(trim(50.data); 0; 80)}}",
+              "url_grafiki": "-",
+              "publikuj_o": "{{now}}",
+              "status": "plan",
+              "zrodlo_inspiracji": "Publikator wieczor"
+             }
+            }
+           },
+           {
+            "id": 54,
+            "module": "builtin:BasicRouter",
+            "version": 1,
+            "mapper": null,
+            "routes": [
+             {
+              "flow": [
+               {
+                "id": 55,
+                "module": "facebook-pages:CreatePostWithPhotos",
+                "version": 6,
+                "parameters": {
+                 "__IMTCONN__": 8898172
+                },
+                "filter": {
+                 "name": "Grafika OK",
+                 "conditions": [
+                  [
+                   {
+                    "a": "{{52.statusCode}}",
+                    "b": "200",
+                    "o": "number:equal"
+                   }
+                  ]
+                 ]
+                },
+                "mapper": {
+                 "photos": [
+                  {
+                   "type": "data",
+                   "fileName": "bekawpigulce.jpg",
+                   "data": "{{52.data}}"
+                  }
+                 ],
+                 "message": "{{trim(50.data)}}",
+                 "page_id": "1282869891751448"
+                }
+               }
+              ]
+             },
+             {
+              "flow": [
+               {
+                "id": 57,
+                "module": "facebook-pages:CreatePost",
+                "version": 6,
+                "parameters": {
+                 "__IMTCONN__": 8898172
+                },
+                "filter": {
+                 "name": "Brak grafiki → post tekstowy",
+                 "conditions": [
+                  [
+                   {
+                    "a": "{{52.statusCode}}",
+                    "b": "200",
+                    "o": "number:notequal"
+                   }
+                  ]
+                 ]
+                },
+                "mapper": {
+                 "message": "{{trim(50.data)}}",
+                 "page_id": "1282869891751448"
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "flow": [
+           {
+            "id": 20,
+            "mapper": {
+             "sort": [
+              {
+               "key": "publikuj_o",
+               "order": 1
+              }
+             ],
+             "filter": [
+              [
+               {
+                "a": "status",
+                "b": "zapas",
+                "o": "text:equal"
+               }
+              ]
+             ]
+            },
+            "module": "datastore:SearchRecord",
+            "version": 1,
+            "parameters": {
+             "limit": 1,
+             "datastore": 145060
+            },
+            "filter": {
+             "name": "Brak pliku planu → zapas",
+             "conditions": [
+              [
+               {
+                "a": "{{50.statusCode}}",
+                "b": "200",
+                "o": "number:notequal"
+               }
+              ]
+             ]
+            }
+           },
+           {
+            "id": 21,
+            "mapper": {
+             "url": "{{20.data.url_grafiki}}",
+             "method": "get",
+             "parseResponse": false,
+             "stopOnHttpError": false,
+             "timeout": 180
+            },
+            "module": "http:MakeRequest",
+            "version": 4,
+            "parameters": {
+             "authenticationType": "noAuth"
+            }
+           },
+           {
+            "id": 41,
+            "module": "datastore:AddRecord",
+            "version": 1,
+            "parameters": {
+             "datastore": 145060
+            },
+            "mapper": {
+             "key": "plan-{{formatDate(now; \"YYYY-MM-DD\")}}-wieczor",
+             "overwrite": true,
+             "data": {
+              "temat": "PLAN {{formatDate(now; \"YYYY-MM-DD\")}}-wieczor",
+              "tekst_posta": "ZAPAS: {{20.key}}",
+              "url_grafiki": "-",
+              "publikuj_o": "{{now}}",
+              "status": "plan",
+              "zrodlo_inspiracji": "Publikator wieczor"
+             }
+            }
+           },
+           {
+            "id": 22,
+            "mapper": null,
+            "module": "builtin:BasicRouter",
+            "version": 1,
+            "routes": [
+             {
+              "flow": [
+               {
+                "id": 23,
+                "filter": {
+                 "name": "Grafika OK",
+                 "conditions": [
+                  [
+                   {
+                    "a": "{{21.statusCode}}",
+                    "b": "200",
+                    "o": "number:equal"
+                   }
+                  ]
+                 ]
+                },
+                "mapper": {
+                 "photos": [
+                  {
+                   "type": "data",
+                   "fileName": "bekawpigulce.jpg",
+                   "data": "{{21.data}}"
+                  }
+                 ],
+                 "message": "{{20.data.tekst_posta}}",
+                 "page_id": "1282869891751448"
+                },
+                "module": "facebook-pages:CreatePostWithPhotos",
+                "version": 6,
+                "parameters": {
+                 "__IMTCONN__": 8898172
+                }
+               },
+               {
+                "id": 24,
+                "mapper": {
+                 "key": "{{20.key}}",
+                 "data": {
+                  "status": "opublikowane"
+                 },
+                 "upsert": false,
+                 "overwriteArrays": false
+                },
+                "module": "datastore:UpdateRecord",
+                "version": 1,
+                "parameters": {
+                 "datastore": 145060
+                }
+               }
+              ]
+             },
+             {
+              "flow": [
+               {
+                "id": 25,
+                "filter": {
+                 "name": "Brak grafiki → post tekstowy",
+                 "conditions": [
+                  [
+                   {
+                    "a": "{{21.statusCode}}",
+                    "b": "200",
+                    "o": "number:notequal"
+                   }
+                  ]
+                 ]
+                },
+                "mapper": {
+                 "page_id": "1282869891751448",
+                 "message": "{{20.data.tekst_posta}}"
+                },
+                "module": "facebook-pages:CreatePost",
+                "version": 6,
+                "parameters": {
+                 "__IMTCONN__": 8898172
+                }
+               },
+               {
+                "id": 26,
+                "mapper": {
+                 "key": "{{20.key}}",
+                 "data": {
+                  "status": "opublikowane"
+                 },
+                 "upsert": false,
+                 "overwriteArrays": false
+                },
+                "module": "datastore:UpdateRecord",
+                "version": 1,
+                "parameters": {
+                 "datastore": 145060
+                }
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
 }

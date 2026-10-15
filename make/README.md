@@ -26,8 +26,9 @@ Make (plan darmowy), Pollinations (anonimowo), GitHub (publiczne repo), lokalny 
 
 | Element | Gdzie | Plik |
 |---|---|---|
-| Beka Fabryka (ID 6508676), codziennie 10:00 | Make | `fabryka.json` |
-| Beka Publikator (ID 6510968), codziennie 18:00 | Make | `publikator.json` |
+| Beka Fabryka (ID 6508676) — wyłączona | Make | `fabryka.json` |
+| Beka Publikator wieczór (ID 6510968), 19:00 | Make | `publikator.json` |
+| Beka Publikator południe (ID 7971251), 12:00 | Make | `publikator-poludnie.json` |
 | Generator kart graficznych (Python + Pillow) | repo | `../generator/karta.py` |
 | Zapas oryginalnych postów | repo + data store (status `zapas`) | `../generator/zapas.json` |
 | Gotowe karty | repo (raw.githubusercontent, link przypięty do commita) | `../karty/*.png` |
@@ -109,17 +110,45 @@ W Make: scenariusz → `…` → Import Blueprint → wklej zawartość pola `bl
 z pliku w `backup/`. Albo przez API/MCP `scenarios_update` z tym blueprintem.
 
 
-## Stan na 2026-10-15 (wersja produkcyjna)
+## Stan na 2026-10-15 (wersja produkcyjna) — plan roczny, 2 posty dziennie
 
-- **Publikacja:** codziennie 18:00 jeden post z zapasu (50 ręcznie napisanych postów z kartami,
-  `generator/zapas.json` + `karty/`). Post AI trafia na stronę tylko wtedy, gdy ktoś zmieni jego status na `czeka`.
-- **Fabryka AI (10:00):** Make AI Toolkit (wbudowany dostawca, bez klucza; Pollinations zwraca 402) pisze
-  2 propozycje dziennie, AI-redaktor ocenia je 1–10, a te z oceną ≥ 8 trafiają do kolejki jako `propozycja`.
-  Testy pokazały, że model pisze po polsku nierówno (nielogiczne zdania), dlatego nic nie jest publikowane automatycznie.
-- **Uzupełnianie zapasu:** zaplanowane zadanie Claude raz w tygodniu dopisuje 7 nowych postów,
-  generuje karty, wypycha je do repo i dodaje rekordy `zapas` do kolejki w Make.
-- Limit planu Free Make: maks. 2 aktywne scenariusze (Fabryka + Publikator).
+**Publikacja (aktywne 2 scenariusze — limit planu Free):**
 
-### Ręczne sterowanie kolejką (Make → Data stores → Beka Kolejka)
-- opublikuj propozycję AI: zmień `status` na `czeka` (wyjdzie o 18:00, jeśli ma < 3 dni);
-- wstrzymaj post z zapasu: zmień `status` na cokolwiek innego niż `zapas`.
+| Scenariusz | Godzina | Co robi |
+|---|---|---|
+| Beka Publikator — południe (ID 7971251) | 12:00 | `plan/RRRR-MM-DD-poludnie.txt` + `karty/plan/…png` → post ze zdjęciem (bez karty → tekstowy) |
+| Beka Publikator — wieczór (ID 6510968) | 19:00 | zatwierdzony post AI (`czeka`, ≤3 dni) > `plan/…-wieczor.txt` + karta > gdy brak pliku planu: najstarszy `zapas` |
+| Beka Fabryka (ID 6508676) | — | **wyłączona** (limit 2 aktywnych scenariuszy; AI i tak pisało nierówno) |
+
+- Pliki planu czyta Make z `raw.githubusercontent.com/Toruniiak/beka-radar/ccr-8750d6fc-oi48wv/…`
+  — **gałąź `ccr-8750d6fc-oi48wv` musi istnieć** (nie usuwać po scaleniu PR-a, albo zmienić URL w obu scenariuszach).
+- Plik `POMIN` = świadoma przerwa (1.11.2026 — Wszystkich Świętych).
+- **Blokada duplikatów:** przed publikacją scenariusz zapisuje w kolejce rekord `plan-RRRR-MM-DD-slot`
+  (status `plan`); gdy taki rekord już jest, kolejne uruchomienie tego dnia nic nie publikuje (koszt: 1 operacja).
+- Rekordy `zapas-04…50` mają status `w_planie` (są już w plikach planu, żeby awaryjna ścieżka ich nie powtórzyła);
+  wyjątek: `zapas-44` został `zapas` (zmiana odrzucona w oknie zgody) — przy awarii GitHuba może wyjść drugi raz.
+- Koszt: ~6 operacji / post → ~360 operacji / miesiąc (limit Free: 1000).
+
+**Treść (generator/plan.py, 728 terminów 16.10.2026 – 15.10.2027):**
+- święta i okazje (`generator/rok/RRRR-MM.json` → `specials`) mają pierwszeństwo;
+- **wtorek i sobota 12:00 — ZAGADKA**, **czwartek 12:00 — QUIZ A/B/C/D** (`generator/interaktywne.json`,
+  101 zagadek + 50 quizów); rozwiązanie jest dopisywane na końcu najbliższego posta z 12:00
+  („🧩 Rozwiązanie wczorajszej zagadki: …”);
+- dalej zapas (`generator/zapas.json`), potem listy miesięcy; nadmiar zostaje w plikach jako rezerwa.
+
+**Grafiki (generator/karta.py, darmowe, lokalne):** Pillow + DejaVu Sans Bold + **Noto Color Emoji** (OFL):
+- post — kolorowa ilustracja z tematycznego emoji posta (🚗, ☕, 🎄 …) + hook;
+- QUIZ — niebieska plakietka, pytanie i 4 kafelki A–D;
+- ZAGADKA — fioletowa plakietka, ilustracja, treść i „Rozwiązanie jutro o 12:00”.
+
+```bash
+python3 generator/plan.py --sprawdz   # walidacja (pytanie w każdym poście, długość, zakazane słowa, duplikaty)
+python3 generator/plan.py             # zapis plan/*.txt + karty/plan/*.png (≈1,5 min)
+```
+Zmiana treści = edycja plików w `generator/`, ponowne uruchomienie, commit + push na gałąź — Make
+pobiera pliki w dniu publikacji, więc nie trzeba niczego zmieniać w scenariuszach.
+
+### Ręczne sterowanie
+- opublikuj propozycję AI: w kolejce zmień `status` na `czeka` (wyjdzie o 19:00 zamiast posta z planu);
+- wstrzymaj konkretny termin: podmień treść pliku `plan/RRRR-MM-DD-slot.txt` na `POMIN` i wypchnij;
+- awaryjnie: wyłącz scenariusz w Make (Scenarios → przełącznik).

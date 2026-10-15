@@ -1,0 +1,254 @@
+{
+ "_opis": "Beka Publikator południe — stan w Make (AKTYWNY, 12:00): plan/RRRR-MM-DD-poludnie.txt + karta",
+ "scenarioId": 7971251,
+ "scheduling": {
+  "type": "daily",
+  "time": "12:00"
+ },
+ "blueprint": {
+  "name": "Beka Publikator — plan → Facebook (12:00 południe)",
+  "metadata": {
+   "instant": false,
+   "version": 1,
+   "designer": {
+    "orphans": []
+   },
+   "scenario": {
+    "dlq": false,
+    "dataloss": false,
+    "maxErrors": 3,
+    "autoCommit": true,
+    "roundtrips": 1,
+    "sequential": true,
+    "confidential": false,
+    "freshVariables": false,
+    "autoCommitTriggerLast": true
+   }
+  },
+  "flow": [
+   {
+    "id": 30,
+    "module": "datastore:SearchRecord",
+    "version": 1,
+    "parameters": {
+     "limit": 1,
+     "datastore": 145060,
+     "continueWhenNoRes": true
+    },
+    "mapper": {
+     "filter": [
+      [
+       {
+        "a": "temat",
+        "b": "PLAN {{formatDate(now; \"YYYY-MM-DD\")}}-poludnie",
+        "o": "text:equal"
+       }
+      ]
+     ]
+    },
+    "metadata": {
+     "designer": {
+      "x": -250,
+      "y": 0
+     }
+    }
+   },
+   {
+    "id": 50,
+    "module": "http:MakeRequest",
+    "version": 4,
+    "parameters": {
+     "authenticationType": "noAuth"
+    },
+    "mapper": {
+     "url": "https://raw.githubusercontent.com/Toruniiak/beka-radar/ccr-8750d6fc-oi48wv/plan/{{formatDate(now; \"YYYY-MM-DD\")}}-poludnie.txt",
+     "method": "get",
+     "headers": [],
+     "queryParameters": [],
+     "parseResponse": true,
+     "stopOnHttpError": false,
+     "timeout": 180,
+     "allowRedirects": true,
+     "shareCookies": false,
+     "requestCompressedContent": true
+    },
+    "metadata": {
+     "designer": {
+      "x": 0,
+      "y": 0
+     }
+    },
+    "filter": {
+     "name": "Jeszcze nie publikowano dziś (południe)",
+     "conditions": [
+      [
+       {
+        "a": "{{ifempty(30.key; \"BRAK\")}}",
+        "b": "BRAK",
+        "o": "text:equal"
+       }
+      ]
+     ]
+    }
+   },
+   {
+    "id": 52,
+    "module": "http:MakeRequest",
+    "version": 4,
+    "parameters": {
+     "authenticationType": "noAuth"
+    },
+    "mapper": {
+     "url": "https://raw.githubusercontent.com/Toruniiak/beka-radar/ccr-8750d6fc-oi48wv/karty/plan/{{formatDate(now; \"YYYY-MM-DD\")}}-poludnie.png",
+     "method": "get",
+     "headers": [],
+     "queryParameters": [],
+     "parseResponse": false,
+     "stopOnHttpError": false,
+     "timeout": 180,
+     "allowRedirects": true,
+     "shareCookies": false,
+     "requestCompressedContent": true
+    },
+    "metadata": {
+     "designer": {
+      "x": 250,
+      "y": 0
+     }
+    },
+    "filter": {
+     "name": "Plik planu OK i nie POMIN",
+     "conditions": [
+      [
+       {
+        "a": "{{50.statusCode}}",
+        "b": "200",
+        "o": "number:equal"
+       },
+       {
+        "a": "{{trim(50.data)}}",
+        "b": "POMIN",
+        "o": "text:notequal"
+       }
+      ]
+     ]
+    }
+   },
+   {
+    "id": 53,
+    "module": "datastore:AddRecord",
+    "version": 1,
+    "parameters": {
+     "datastore": 145060
+    },
+    "mapper": {
+     "key": "plan-{{formatDate(now; \"YYYY-MM-DD\")}}-poludnie",
+     "overwrite": true,
+     "data": {
+      "temat": "PLAN {{formatDate(now; \"YYYY-MM-DD\")}}-poludnie",
+      "tekst_posta": "{{substring(trim(50.data); 0; 80)}}",
+      "url_grafiki": "-",
+      "publikuj_o": "{{now}}",
+      "status": "plan",
+      "zrodlo_inspiracji": "Publikator poludnie"
+     }
+    },
+    "metadata": {
+     "designer": {
+      "x": 500,
+      "y": 0
+     }
+    }
+   },
+   {
+    "id": 54,
+    "module": "builtin:BasicRouter",
+    "version": 1,
+    "mapper": null,
+    "metadata": {
+     "designer": {
+      "x": 750,
+      "y": 0
+     }
+    },
+    "routes": [
+     {
+      "flow": [
+       {
+        "id": 55,
+        "module": "facebook-pages:CreatePostWithPhotos",
+        "version": 6,
+        "parameters": {
+         "__IMTCONN__": 8898172
+        },
+        "filter": {
+         "name": "Grafika OK",
+         "conditions": [
+          [
+           {
+            "a": "{{52.statusCode}}",
+            "b": "200",
+            "o": "number:equal"
+           }
+          ]
+         ]
+        },
+        "mapper": {
+         "photos": [
+          {
+           "type": "data",
+           "fileName": "bekawpigulce.jpg",
+           "data": "{{52.data}}"
+          }
+         ],
+         "message": "{{trim(50.data)}}",
+         "page_id": "1282869891751448"
+        },
+        "metadata": {
+         "designer": {
+          "x": 1000,
+          "y": -100
+         }
+        }
+       }
+      ]
+     },
+     {
+      "flow": [
+       {
+        "id": 57,
+        "module": "facebook-pages:CreatePost",
+        "version": 6,
+        "parameters": {
+         "__IMTCONN__": 8898172
+        },
+        "filter": {
+         "name": "Brak grafiki → post tekstowy",
+         "conditions": [
+          [
+           {
+            "a": "{{52.statusCode}}",
+            "b": "200",
+            "o": "number:notequal"
+           }
+          ]
+         ]
+        },
+        "mapper": {
+         "message": "{{trim(50.data)}}",
+         "page_id": "1282869891751448"
+        },
+        "metadata": {
+         "designer": {
+          "x": 1000,
+          "y": 100
+         }
+        }
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}
